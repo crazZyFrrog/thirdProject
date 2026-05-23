@@ -1,12 +1,12 @@
 import React from 'react'
 import { Phone, Mail, MapPin, Instagram, MessageCircle } from 'lucide-react'
+import { contacts, getWhatsAppUrl } from '../config/contacts'
 
 const Footer = ({ onBookingClick }) => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container-custom section-padding">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
           <div className="space-y-4">
             <h3 className="font-display text-2xl font-bold text-white">
               Мастерская красоты ЛТ
@@ -16,26 +16,24 @@ const Footer = ({ onBookingClick }) => {
             </p>
           </div>
 
-          {/* Контакты */}
           <div className="space-y-4">
             <h4 className="font-semibold text-white text-lg">Контакты</h4>
             <div className="space-y-3">
-              <a href="tel:+74842559572" className="flex items-center space-x-3 hover:text-accent-400 transition-colors">
+              <a href={`tel:${contacts.phoneTel}`} className="flex items-center space-x-3 hover:text-accent-400 transition-colors">
                 <Phone size={18} />
-                <span>+7 (4842) 55-95-72</span>
+                <span>{contacts.phoneDisplay}</span>
               </a>
-              <a href="mailto:info@yourmaster.ru" className="flex items-center space-x-3 hover:text-accent-400 transition-colors">
+              <a href={`mailto:${contacts.email}`} className="flex items-center space-x-3 hover:text-accent-400 transition-colors">
                 <Mail size={18} />
-                <span>info@yourmaster.ru</span>
+                <span>{contacts.email}</span>
               </a>
               <div className="flex items-start space-x-3">
                 <MapPin size={18} className="flex-shrink-0 mt-1" />
-                <span>г. Калуга, ул. Глаголева, д. 9</span>
+                <span>{contacts.address}</span>
               </div>
             </div>
           </div>
 
-          {/* Режим работы */}
           <div className="space-y-4">
             <h4 className="font-semibold text-white text-lg">Режим работы</h4>
             <div className="space-y-2 text-sm">
@@ -54,12 +52,11 @@ const Footer = ({ onBookingClick }) => {
             </div>
           </div>
 
-          {/* Социальные сети */}
           <div className="space-y-4">
             <h4 className="font-semibold text-white text-lg">Мы в соцсетях</h4>
             <div className="flex space-x-4">
               <a 
-                href="https://instagram.com" 
+                href={contacts.instagram}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent-600 transition-colors"
@@ -67,7 +64,7 @@ const Footer = ({ onBookingClick }) => {
                 <Instagram size={20} />
               </a>
               <a 
-                href="https://wa.me/79991234567" 
+                href={getWhatsAppUrl()}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent-600 transition-colors"
@@ -81,9 +78,8 @@ const Footer = ({ onBookingClick }) => {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} Мастераская красоты ЛТ. Все права защищены.</p>
+          <p>&copy; {new Date().getFullYear()} Мастерская красоты ЛТ. Все права защищены.</p>
         </div>
       </div>
     </footer>

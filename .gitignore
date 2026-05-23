@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+public/api/config.php
+public/api/.rate_limit/
 
 # Editor directories and files
 .vscode/*

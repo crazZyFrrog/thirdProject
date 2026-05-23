@@ -1,5 +1,6 @@
 import React from 'react'
-import { MessageCircle, Phone, Award, Heart, Sparkles } from 'lucide-react'
+import { MessageCircle, Award, Heart, Sparkles } from 'lucide-react'
+import { getWhatsAppUrl } from '../config/contacts'
 
 const FinalCTA = ({ onBookingClick }) => {
   return (
@@ -33,7 +34,7 @@ const FinalCTA = ({ onBookingClick }) => {
               Записаться сейчас
             </button>
             <a 
-              href="https://wa.me/79991234567" 
+              href={getWhatsAppUrl()} 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium px-10 py-5 rounded-full border-2 border-white/30 transition-all duration-300 hover:scale-105 active:scale-100 inline-flex items-center justify-center space-x-3 text-lg"

@@ -1,4 +1,4 @@
-# Инструкция по развертыванию
+# Инструкция по развертыванию (Beget / Timeweb)
 
 ## Локальная разработка
 
@@ -7,157 +7,142 @@
 npm install
 ```
 
-2. Запустите dev-сервер:
+2. Создайте `.env` из `.env.example` и заполните контакты.
+
+3. Для тестирования формы локально (нужен PHP 8+):
 ```bash
+# Терминал 1 — API
+npm run dev:api
+
+# Терминал 2 — фронтенд
 npm run dev
 ```
 
-3. Откройте браузер: http://localhost:5173/
+4. Скопируйте `public/api/config.example.php` → `public/api/config.php` и укажите токены Telegram/VK.
+
+5. Откройте http://localhost:5173/
 
 ## Продакшен сборка
-
-### Сборка проекта
 
 ```bash
 npm run build
 ```
 
-Готовые файлы будут в папке `dist/`
+Готовые файлы будут в папке `dist/` (включая `api/`, `.htaccess`, `robots.txt`).
 
-### Предпросмотр сборки
+## Развертывание на Beget / Timeweb
 
-```bash
-npm run preview
-```
+### 1. Подготовка хостинга
 
-## Развертывание на Netlify
+1. Зарегистрируйте аккаунт на [Beget](https://beget.com) или [Timeweb](https://timeweb.com)
+2. Выберите тариф виртуального хостинга с **PHP 8.x**
+3. Привяжите домен в панели хостинга
+4. Включите **SSL** (Let's Encrypt) после привязки домена
 
-1. Создайте аккаунт на [Netlify](https://netlify.com)
-2. Подключите ваш Git репозиторий
-3. Настройки сборки:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-4. Deploy!
+### 2. Настройка API на сервере
 
-## Развертывание на Vercel
+1. Соберите проект: `npm run build`
+2. Загрузите **содержимое** папки `dist/` в `public_html/` (FTP/SFTP или файловый менеджер)
+3. На сервере создайте `public_html/api/config.php` на основе `config.example.php`:
+   - `telegram_bot_token` — от @BotFather
+   - `telegram_chat_id` — ID чата админа
+   - `vk_access_token` — токен сообщества VK
+   - `vk_admin_user_id` — VK ID админа
 
-1. Создайте аккаунт на [Vercel](https://vercel.com)
-2. Импортируйте проект из Git
-3. Vercel автоматически определит настройки
-4. Deploy!
+**Важно:** `config.php` не должен попадать в git. На сервере создаётся вручную.
 
-## Развертывание на GitHub Pages
+### 3. DNS (reg.ru)
 
-1. Установите gh-pages:
-```bash
-npm install --save-dev gh-pages
-```
+В панели reg.ru → DNS-записи:
 
-2. Добавьте в `package.json`:
-```json
-{
-  "homepage": "https://yourusername.github.io/repository-name",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  }
-}
-```
+| Имя | Тип | Значение |
+|-----|-----|----------|
+| `@` | A | IP сервера Beget/Timeweb |
+| `www` | A | IP сервера Beget/Timeweb |
 
-3. Обновите `vite.config.js`:
-```js
-export default defineConfig({
-  plugins: [react()],
-  base: '/repository-name/'
-})
-```
+Не включайте перенаправления reg.ru параллельно с хостингом.
 
-4. Деплой:
-```bash
-npm run deploy
-```
+### 4. Обновление SEO-файлов
 
-## Переменные окружения
+Перед деплоем замените `example.ru` на реальный домен в:
+- `index.html` (og:url, canonical, schema.org)
+- `public/robots.txt`
+- `public/sitemap.xml`
 
-Создайте файл `.env` для локальной разработки:
+Затем пересоберите: `npm run build`
+
+### 5. Проверка после деплоя
+
+- [ ] Сайт открывается по HTTPS
+- [ ] Все JS/CSS загружаются (нет белого экрана)
+- [ ] Форма записи → уведомление в Telegram
+- [ ] Форма записи → уведомление в VK
+- [ ] Тест с мобильного интернета в городе заказчика
+
+## Переменные окружения (фронтенд)
+
+Создайте `.env` перед сборкой:
 
 ```
-VITE_PHONE_NUMBER=+79991234567
-VITE_EMAIL=info@yourmaster.ru
-VITE_WHATSAPP_NUMBER=79991234567
-VITE_INSTAGRAM_URL=https://instagram.com/yourmaster
+VITE_PHONE=+74842559572
+VITE_PHONE_DISPLAY=+7 (4842) 55-95-72
+VITE_EMAIL=info@domain.ru
+VITE_WHATSAPP=784842559572
+VITE_INSTAGRAM=https://instagram.com/yourmaster
+VITE_VK=https://vk.com/yourmaster
+VITE_ADDRESS=г. Калуга, ул. Глаголева, д. 9
 ```
 
-## Оптимизация
+Пересоберите после изменения: `npm run build`
 
-### Добавление изображений
+## Структура на сервере
 
-1. Поместите изображения в `public/images/`
-2. Используйте оптимизированные форматы (WebP, AVIF)
-3. Добавьте lazy loading
-
-### Настройка SEO
-
-1. Обновите `index.html`:
-   - meta description
-   - meta keywords
-   - Open Graph теги
-   - Twitter Card теги
-
-2. Создайте `public/robots.txt`
-3. Создайте `public/sitemap.xml`
-
-### Google Analytics
-
-Добавьте в `index.html`:
-
-```html
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
+```
+public_html/
+├── index.html
+├── assets/
+├── images/
+├── api/
+│   ├── booking.php
+│   └── config.php          ← только на сервере
+├── .htaccess
+├── robots.txt
+├── sitemap.xml
+└── favicon.svg
 ```
 
-### Yandex Metrika
+## Настройка Telegram
 
-```html
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+1. Создайте бота через [@BotFather](https://t.me/BotFather)
+2. Админ пишет боту `/start`
+3. Узнайте `chat_id` через `getUpdates` или @userinfobot
+4. Укажите токены в `api/config.php`
 
-   ym(XXXXXXXX, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-```
+## Настройка VK
 
-## Чеклист перед деплоем
+1. Создайте сообщество → включите «Сообщения сообщества»
+2. Получите access token с правами `messages`
+3. Админ должен **первым написать** сообществу
+4. Укажите токен и `user_id` в `api/config.php`
 
-- [ ] Обновлены все контактные данные
-- [ ] Добавлены реальные изображения
-- [ ] Настроены мета-теги
-- [ ] Проверена адаптивность на всех устройствах
-- [ ] Протестированы все ссылки
-- [ ] Добавлен favicon
-- [ ] Настроена аналитика
-- [ ] Проверена скорость загрузки
-- [ ] Настроен SSL сертификат
-- [ ] Протестированы формы
+## Обновление сайта
+
+1. Внесите изменения в код
+2. `npm run build`
+3. Загрузите обновлённые файлы из `dist/` на хостинг (кроме `api/config.php` — не перезаписывайте)
+
+## Яндекс.Метрика
+
+Добавьте счётчик в `index.html` перед `</body>` (см. [SEO.md](SEO.md)).
+
+## Альтернатива: Vercel
+
+Файл `vercel.json` сохранён, но для аудитории в России рекомендуется Beget/Timeweb из-за стабильности доступа.
 
 ## Поддержка
 
-Если возникли вопросы, проверьте:
+- [Beget — база знаний](https://beget.com/ru/kb)
+- [Timeweb — помощь](https://timeweb.com/ru/docs/)
 - [Vite Documentation](https://vitejs.dev)
-- [React Documentation](https://react.dev)
-- [Tailwind CSS Documentation](https://tailwindcss.com)
+
+Подробная передача заказчику — в [HANDOVER.md](HANDOVER.md).

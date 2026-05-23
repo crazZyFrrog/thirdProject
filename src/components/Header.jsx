@@ -1,5 +1,6 @@
 import React from 'react'
-import { Phone, MessageCircle } from 'lucide-react'
+import { Phone } from 'lucide-react'
+import { contacts } from '../config/contacts'
 
 const Header = ({ show, onBookingClick }) => {
   return (
@@ -32,11 +33,11 @@ const Header = ({ show, onBookingClick }) => {
 
           <div className="flex items-center space-x-4">
             <a 
-              href="tel:+74842559572" 
+              href={`tel:${contacts.phoneTel}`}
               className="hidden sm:flex items-center space-x-2 text-accent-700 hover:text-accent-800 transition-colors font-medium"
             >
               <Phone size={18} />
-              <span>+7 (4842) 55-95-72</span>
+              <span>{contacts.phoneDisplay}</span>
             </a>
             <button onClick={onBookingClick} className="btn-primary py-3 px-6 text-sm">
               Записаться

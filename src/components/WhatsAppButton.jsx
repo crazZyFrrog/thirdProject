@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { MessageCircle, X } from 'lucide-react'
+import { getWhatsAppUrl } from '../config/contacts'
 
 const WhatsAppButton = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -48,7 +49,7 @@ const WhatsAppButton = () => {
 
       {/* WhatsApp Button */}
       <a
-        href="https://wa.me/79991234567?text=Здравствуйте!%20Хочу%20записаться%20на%20консультацию"
+        href={getWhatsAppUrl()}
         target="_blank"
         rel="noopener noreferrer"
         className="group relative block"

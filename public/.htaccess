@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Не перенаправлять API на index.html
+  RewriteCond %{REQUEST_URI} !^/api/
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<FilesMatch "^config\.php$">
+  Require all denied
+</FilesMatch>
