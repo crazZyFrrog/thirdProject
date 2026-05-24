@@ -1,5 +1,7 @@
 # Инструкция по развертыванию (Beget / Timeweb)
 
+> **Подробный гайд для сюрприза заказчику:** см. [DOMAIN_AND_HOSTING.md](DOMAIN_AND_HOSTING.md) — покупка домена на reg.ru, подключение Beget/Timeweb, загрузка сайта.
+
 ## Локальная разработка
 
 1. Установите зависимости:
@@ -9,18 +11,20 @@ npm install
 
 2. Создайте `.env` из `.env.example` и заполните контакты.
 
-3. Для тестирования формы локально (нужен PHP 8+):
-```bash
-# Терминал 1 — API
-npm run dev:api
+3. Для тестирования формы локально достаточно одного терминала:
 
-# Терминал 2 — фронтенд
+```bash
 npm run dev
 ```
 
-4. Скопируйте `public/api/config.example.php` → `public/api/config.php` и укажите токены Telegram/VK.
+API формы в dev-режиме встроен в Vite (PHP не нужен). Нужен файл `public/api/config.php` с токенами Telegram.
 
-5. Откройте http://localhost:5173/
+Опционально — отдельный PHP-сервер (если PHP установлен):
+
+```bash
+npm run dev:api   # терминал 1
+npm run dev       # терминал 2
+```
 
 ## Продакшен сборка
 

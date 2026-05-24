@@ -34,7 +34,7 @@ const Header = ({ show, onBookingClick }) => {
           <div className="flex items-center space-x-4">
             <a 
               href={`tel:${contacts.phoneTel}`}
-              className="hidden sm:flex items-center space-x-2 text-accent-700 hover:text-accent-800 transition-colors font-medium"
+              className="hidden lg:flex items-center space-x-2 text-accent-700 hover:text-accent-800 transition-colors font-medium"
             >
               <Phone size={18} />
               <span>{contacts.phoneDisplay}</span>

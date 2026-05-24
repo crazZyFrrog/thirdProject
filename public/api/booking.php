@@ -19,6 +19,7 @@ if (!file_exists($configPath)) {
 
 /** @var array<string, mixed> $config */
 $config = require $configPath;
+require_once __DIR__ . '/lib/schedule.php';
 
 $rawBody = file_get_contents('php://input');
 $data = json_decode($rawBody ?: '', true);
@@ -29,7 +30,6 @@ if (!is_array($data)) {
     exit;
 }
 
-// Honeypot — боты часто заполняют скрытые поля
 if (!empty($data['website'])) {
     echo json_encode(['success' => true], JSON_UNESCAPED_UNICODE);
     exit;
@@ -42,35 +42,39 @@ if (!checkRateLimit($clientIp, $config)) {
     exit;
 }
 
-$name = trim((string) ($data['name'] ?? ''));
-$email = trim((string) ($data['email'] ?? ''));
-$phone = trim((string) ($data['phone'] ?? ''));
-$service = trim((string) ($data['service'] ?? ''));
-$message = trim((string) ($data['message'] ?? ''));
+try {
+    $booking = createBookingRecord($data);
+    $notificationText = buildBookingNotification($booking);
 
-$errors = validateBooking($name, $email, $phone);
-if ($errors !== []) {
+    $results = [
+        'telegram' => sendTelegram($config, $notificationText),
+        'vk' => sendVk($config, $notificationText),
+    ];
+
+    $successCount = count(array_filter($results));
+    if ($successCount === 0) {
+        http_response_code(502);
+        echo json_encode(['error' => 'Запись создана, но уведомление не отправлено. Позвоните в салон.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    echo json_encode([
+        'success' => true,
+        'booking' => [
+            'master' => $booking['master_name'],
+            'date' => $booking['start_at']->format('Y-m-d'),
+            'time' => $booking['start_at']->format('H:i'),
+            'endTime' => $booking['end_at']->format('H:i'),
+            'service' => $booking['service_label'],
+        ],
+    ], JSON_UNESCAPED_UNICODE);
+} catch (InvalidArgumentException $e) {
     http_response_code(400);
-    echo json_encode(['error' => implode(' ', $errors)], JSON_UNESCAPED_UNICODE);
-    exit;
+    echo json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Не удалось создать запись. Попробуйте позже.'], JSON_UNESCAPED_UNICODE);
 }
-
-$serviceLabel = mapServiceLabel($service);
-$notificationText = buildNotificationText($name, $email, $phone, $serviceLabel, $message);
-
-$results = [
-    'telegram' => sendTelegram($config, $notificationText),
-    'vk' => sendVk($config, $notificationText),
-];
-
-$successCount = count(array_filter($results));
-if ($successCount === 0) {
-    http_response_code(502);
-    echo json_encode(['error' => 'Не удалось отправить заявку. Позвоните нам напрямую.'], JSON_UNESCAPED_UNICODE);
-    exit;
-}
-
-echo json_encode(['success' => true], JSON_UNESCAPED_UNICODE);
 
 function getClientIp(): string
 {
@@ -120,64 +124,6 @@ function checkRateLimit(string $ip, array $config): bool
     file_put_contents($file, json_encode($requests));
 
     return true;
-}
-
-function validateBooking(string $name, string $email, string $phone): array
-{
-    $errors = [];
-
-    if ($name === '') {
-        $errors[] = 'Введите ваше имя.';
-    }
-
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Введите корректный email.';
-    }
-
-    if ($phone === '' || !preg_match('/^[\d\s+\-()]+$/', $phone)) {
-        $errors[] = 'Введите корректный телефон.';
-    }
-
-    return $errors;
-}
-
-function mapServiceLabel(string $service): string
-{
-    $map = [
-        'haircut' => 'Женская стрижка',
-        'coloring' => 'Окрашивание',
-        'complex' => 'Стрижка + окрашивание',
-        'consultation' => 'Консультация',
-    ];
-
-    if ($service === '') {
-        return 'Не указана';
-    }
-
-    return $map[$service] ?? $service;
-}
-
-function buildNotificationText(
-    string $name,
-    string $email,
-    string $phone,
-    string $serviceLabel,
-    string $message
-): string {
-    $lines = [
-        "🆕 Новая заявка с сайта!",
-        '',
-        "👤 Имя: {$name}",
-        "📧 Email: {$email}",
-        "📱 Телефон: {$phone}",
-        "💇 Услуга: {$serviceLabel}",
-    ];
-
-    if ($message !== '') {
-        $lines[] = "💬 Комментарий: {$message}";
-    }
-
-    return implode("\n", $lines);
 }
 
 function sendTelegram(array $config, string $text): bool

@@ -1,0 +1,88 @@
+{
+  "timezone": "Europe/Moscow",
+  "slotStepMinutes": 30,
+  "businessHours": {
+    "monday": { "open": "10:00", "close": "20:00" },
+    "tuesday": { "open": "10:00", "close": "20:00" },
+    "wednesday": { "open": "10:00", "close": "20:00" },
+    "thursday": { "open": "10:00", "close": "20:00" },
+    "friday": { "open": "10:00", "close": "20:00" },
+    "saturday": { "open": "10:00", "close": "18:00" },
+    "sunday": null
+  },
+  "masters": {
+    "tatyana": {
+      "name": "Татьяна",
+      "role": "Парикмахер",
+      "schedule": null,
+      "serviceGroups": [
+        {
+          "title": "Стрижки",
+          "services": ["womens-haircut", "mens-haircut", "kids-haircut", "consultation"]
+        },
+        {
+          "title": "Окрашивание",
+          "services": ["roots-coloring", "coloring", "highlights"]
+        },
+        {
+          "title": "Причёски",
+          "services": ["hairstyle", "styling"]
+        }
+      ]
+    },
+    "olga": {
+      "name": "Ольга",
+      "role": "Парикмахер",
+      "schedule": null,
+      "serviceGroups": [
+        {
+          "title": "Стрижки",
+          "services": ["womens-haircut", "mens-haircut", "kids-haircut", "consultation"]
+        },
+        {
+          "title": "Окрашивание",
+          "services": ["roots-coloring", "coloring", "highlights"]
+        },
+        {
+          "title": "Причёски",
+          "services": ["hairstyle", "styling"]
+        }
+      ]
+    },
+    "olesya": {
+      "name": "Олеся",
+      "role": "Мастер маникюра и бровей",
+      "schedule": null,
+      "serviceGroups": [
+        {
+          "title": "Брови и ресницы",
+          "services": ["brows-correction", "brows-coloring", "lashes-coloring"]
+        },
+        {
+          "title": "Маникюр и педикюр",
+          "services": ["nails-correction", "gel-polish", "hardware-manicure", "classic-manicure", "smart-pedicure", "mens-pedicure"]
+        }
+      ]
+    }
+  },
+  "services": {
+    "brows-correction": { "label": "Коррекция бровей", "durationMinutes": 30 },
+    "brows-coloring": { "label": "Окрашивание бровей", "durationMinutes": 30 },
+    "lashes-coloring": { "label": "Окрашивание ресниц", "durationMinutes": 30 },
+    "nails-correction": { "label": "Коррекция ногтей", "durationMinutes": 90 },
+    "gel-polish": { "label": "Покрытие гель-лаком", "durationMinutes": 90 },
+    "hardware-manicure": { "label": "Аппаратный маникюр", "durationMinutes": 60 },
+    "classic-manicure": { "label": "Классический маникюр", "durationMinutes": 60 },
+    "smart-pedicure": { "label": "Smart педикюр", "durationMinutes": 120 },
+    "mens-pedicure": { "label": "Мужской педикюр", "durationMinutes": 90 },
+    "hairstyle": { "label": "Причёска", "durationMinutes": 90 },
+    "styling": { "label": "Укладка волос", "durationMinutes": 60 },
+    "roots-coloring": { "label": "Окрашивание корней", "durationMinutes": 90 },
+    "coloring": { "label": "Колорирование / окрашивание", "durationMinutes": 150 },
+    "highlights": { "label": "Мелирование", "durationMinutes": 180 },
+    "womens-haircut": { "label": "Женская стрижка", "durationMinutes": 60 },
+    "mens-haircut": { "label": "Мужская стрижка", "durationMinutes": 45 },
+    "kids-haircut": { "label": "Детская стрижка", "durationMinutes": 45 },
+    "consultation": { "label": "Консультация", "durationMinutes": 30 }
+  }
+}

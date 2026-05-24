@@ -1,14 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { devBookingApiPlugin } from './scripts/dev-booking-api.js'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), devBookingApiPlugin()],
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-    },
+    host: true,
+    port: 5173,
+    strictPort: false,
   },
 })
