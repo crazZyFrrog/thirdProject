@@ -1,6 +1,6 @@
 import React from 'react'
 import { MessageCircle, Award, Heart, Sparkles } from 'lucide-react'
-import { getWhatsAppUrl } from '../config/contacts'
+import { getVkMessagesUrl } from '../config/contacts'
 
 const FinalCTA = ({ onBookingClick }) => {
   return (
@@ -23,7 +23,7 @@ const FinalCTA = ({ onBookingClick }) => {
           </h2>
           
           <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-            Запишитесь на консультацию и получите рекомендации именно для ваших волос.
+            Запишитесь онлайн или напишите нам в ВКонтакте — подберём услугу и удобное время.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -34,20 +34,20 @@ const FinalCTA = ({ onBookingClick }) => {
               Записаться сейчас
             </button>
             <a 
-              href={getWhatsAppUrl()} 
+              href={getVkMessagesUrl()} 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium px-10 py-5 rounded-full border-2 border-white/30 transition-all duration-300 hover:scale-105 active:scale-100 inline-flex items-center justify-center space-x-3 text-lg"
             >
               <MessageCircle size={24} />
-              <span>Написать в WhatsApp</span>
+              <span>Написать в ВКонтакте</span>
             </a>
           </div>
 
           <div className="pt-12 flex flex-wrap items-center justify-center gap-8 text-white/90">
             <div className="flex items-center space-x-2">
               <Award size={20} />
-              <span className="font-medium">25+ лет опыта</span>
+              <span className="font-medium">15+ лет опыта</span>
             </div>
             <div className="hidden sm:block w-px h-6 bg-white/30"></div>
             <div className="flex items-center space-x-2">

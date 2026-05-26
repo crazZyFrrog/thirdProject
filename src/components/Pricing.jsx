@@ -21,13 +21,22 @@ const Pricing = ({ onBookingClick }) => {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 mb-12">
           {pricingCategories.map((category) => (
             <div key={category.title} className="card-premium">
-              <h3 className="heading-3 text-xl mb-6 pb-4 border-b border-gray-100">
+              <h3 className="heading-3 text-xl mb-2">
                 {category.title}
               </h3>
+              {category.note && (
+                <p className="text-xs text-gray-500 mb-4 pb-4 border-b border-gray-100">{category.note}</p>
+              )}
+              {!category.note && <div className="mb-6 pb-4 border-b border-gray-100" />}
               <ul className="space-y-3">
                 {category.items.map((item) => (
                   <li key={item.name} className="flex items-start justify-between gap-4">
-                    <span className="text-gray-700 text-sm leading-relaxed">{item.name}</span>
+                    <span className="text-gray-700 text-sm leading-relaxed">
+                      {item.name}
+                      {item.note && (
+                        <span className="block text-xs text-gray-500 mt-0.5">{item.note}</span>
+                      )}
+                    </span>
                     <span className="text-accent-700 font-semibold whitespace-nowrap text-sm">
                       {item.price}
                     </span>

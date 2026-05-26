@@ -7,13 +7,13 @@ const HowItWorks = () => {
       number: '01',
       icon: MessageSquare,
       title: 'Оставьте заявку',
-      description: 'Через сайт, WhatsApp или по телефону.'
+      description: 'Через сайт, ВКонтакте или по телефону.'
     },
     {
       number: '02',
       icon: Sparkles,
-      title: 'Получите консультацию',
-      description: 'Обсудим ваши пожелания, состояние волос и подберём подходящую услугу.'
+      title: 'Обсудим детали',
+      description: 'Уточним пожелания и подберём подходящую услугу и мастера.'
     },
     {
       number: '03',

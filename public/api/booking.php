@@ -131,7 +131,7 @@ function sendTelegram(array $config, string $text): bool
     $token = trim((string) ($config['telegram_bot_token'] ?? ''));
     $chatId = trim((string) ($config['telegram_chat_id'] ?? ''));
 
-    if ($token === '' || $chatId === '' || str_contains($token, 'YOUR_')) {
+    if ($token === '' || $chatId === '' || strpos($token, 'YOUR_') !== false) {
         return false;
     }
 
@@ -150,7 +150,7 @@ function sendVk(array $config, string $text): bool
     $token = trim((string) ($config['vk_access_token'] ?? ''));
     $userId = trim((string) ($config['vk_admin_user_id'] ?? ''));
 
-    if ($token === '' || $userId === '' || str_contains($token, 'YOUR_')) {
+    if ($token === '' || $userId === '' || strpos($token, 'YOUR_') !== false) {
         return false;
     }
 

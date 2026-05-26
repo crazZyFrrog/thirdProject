@@ -1,10 +1,17 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
+  addBlockedPeriod,
   buildBookingNotification,
+  createBlockedSlot,
   createBookingRecord,
+  deleteBlockedPeriod,
+  deleteBooking,
   getAvailableSlots,
   getBookingConfig,
+  insertBookingRecord,
+  listBlockedPeriods,
+  listBookingsAdmin,
 } from './booking-schedule.js'
 
 function loadConfig() {
@@ -22,7 +29,20 @@ function loadConfig() {
   return {
     telegram_bot_token: read('telegram_bot_token'),
     telegram_chat_id: read('telegram_chat_id'),
+    admin_password: read('admin_password'),
   }
+}
+
+function verifyAdmin(req, config) {
+  const expected = (config?.admin_password ?? '').trim()
+  if (!expected || expected.includes('CHANGE_ME')) {
+    return { ok: false, status: 500, error: 'Задайте admin_password в public/api/config.php' }
+  }
+  const provided = (req.headers['x-admin-password'] ?? '').trim()
+  if (!provided || provided !== expected) {
+    return { ok: false, status: 401, error: 'Неверный пароль админки.' }
+  }
+  return { ok: true }
 }
 
 async function sendTelegram(config, text) {
@@ -84,6 +104,88 @@ export function devBookingApiPlugin() {
             return sendJson(res, 200, getBookingConfig())
           } catch (error) {
             return sendJson(res, 500, { error: error.message || 'Не удалось загрузить настройки записи' })
+          }
+        }
+
+        if (pathname === '/api/admin.php') {
+          const config = loadConfig()
+          if (!config) {
+            return sendJson(res, 500, { error: 'Сервер не настроен. Создайте public/api/config.php' })
+          }
+
+          const query = parseQuery(req.url || '')
+          const action = query.action || ''
+
+          if (action === 'ping' && req.method === 'GET') {
+            const auth = verifyAdmin(req, config)
+            if (!auth.ok) return sendJson(res, auth.status, { error: auth.error })
+            return sendJson(res, 200, { ok: true })
+          }
+
+          const auth = verifyAdmin(req, config)
+          if (!auth.ok) return sendJson(res, auth.status, { error: auth.error })
+
+          try {
+            const rawBody = await readBody(req)
+            const body = JSON.parse(rawBody || '{}')
+
+            if (action === 'bookings' && req.method === 'GET') {
+              return sendJson(res, 200, { bookings: listBookingsAdmin(80) })
+            }
+            if (action === 'blocked-periods' && req.method === 'GET') {
+              return sendJson(res, 200, { periods: listBlockedPeriods() })
+            }
+            if (action === 'phone-booking' && req.method === 'POST') {
+              const booking = insertBookingRecord(body, 'phone', true)
+              const text = buildBookingNotification(booking)
+              const telegramResult = await sendTelegram(config, text)
+              return sendJson(res, 200, {
+                success: true,
+                booking: {
+                  master: booking.master_name,
+                  date: booking.start_at.toISOString().slice(0, 10),
+                  time: booking.start_at.toTimeString().slice(0, 5),
+                  endTime: booking.end_at.toTimeString().slice(0, 5),
+                  service: booking.service_label,
+                },
+                notified: { telegram: telegramResult.ok, vk: false },
+              })
+            }
+            if (action === 'block-slot' && req.method === 'POST') {
+              const slot = createBlockedSlot(body)
+              return sendJson(res, 200, {
+                success: true,
+                slot: {
+                  id: slot.id,
+                  master: slot.master_name,
+                  date: slot.start_at.toISOString().slice(0, 10),
+                  time: slot.start_at.toTimeString().slice(0, 5),
+                  endTime: slot.end_at.toTimeString().slice(0, 5),
+                  note: slot.note,
+                },
+              })
+            }
+            if (action === 'blocked-period' && req.method === 'POST') {
+              const period = addBlockedPeriod(body)
+              return sendJson(res, 200, { success: true, period })
+            }
+            if (action === 'delete-booking' && req.method === 'POST') {
+              deleteBooking(Number(body.id))
+              return sendJson(res, 200, { success: true })
+            }
+            if (action === 'delete-blocked-period' && req.method === 'POST') {
+              deleteBlockedPeriod(Number(body.id))
+              return sendJson(res, 200, { success: true })
+            }
+
+            return sendJson(res, 400, { error: 'Неизвестное действие.' })
+          } catch (error) {
+            const status = /выберите|введите|нельзя|занято|некоррект|работает|укажите|найден/i.test(
+              error.message
+            )
+              ? 400
+              : 500
+            return sendJson(res, status, { error: error.message || 'Ошибка сервера' })
           }
         }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Phone, MapPin, Instagram, MessageCircle } from 'lucide-react'
-import { contacts, getWhatsAppUrl } from '../config/contacts'
+import { Phone, MapPin, Instagram } from 'lucide-react'
+import { contacts, getVkMessagesUrl } from '../config/contacts'
 
 const VkIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -29,10 +29,6 @@ const Footer = ({ onBookingClick }) => {
                 <Phone size={18} />
                 <span>{contacts.phoneDisplay}</span>
               </a>
-              <a href={`tel:${contacts.phoneMobileTel}`} className="flex items-center space-x-3 hover:text-accent-400 transition-colors">
-                <Phone size={18} />
-                <span>{contacts.phoneMobileDisplay}</span>
-              </a>
               <div className="flex items-start space-x-3">
                 <MapPin size={18} className="flex-shrink-0 mt-1" />
                 <a
@@ -60,7 +56,7 @@ const Footer = ({ onBookingClick }) => {
               </div>
               <div className="flex justify-between">
                 <span>Воскресенье:</span>
-                <span className="text-white">Выходной</span>
+                <span className="text-white">10:00 - 18:00</span>
               </div>
             </div>
           </div>
@@ -78,23 +74,14 @@ const Footer = ({ onBookingClick }) => {
                   <Instagram size={20} />
                 </a>
               )}
-              {contacts.vk && (
-                <a 
-                  href={contacts.vk}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent-600 transition-colors"
-                >
-                  <VkIcon />
-                </a>
-              )}
               <a 
-                href={getWhatsAppUrl()}
+                href={getVkMessagesUrl()}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent-600 transition-colors"
+                aria-label="Написать в ВКонтакте"
               >
-                <MessageCircle size={20} />
+                <VkIcon />
               </a>
             </div>
             <button onClick={onBookingClick} className="btn-primary w-full mt-6">

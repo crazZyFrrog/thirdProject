@@ -23,6 +23,9 @@ const Header = ({ show, onBookingClick }) => {
             <a href="#services" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
               Услуги
             </a>
+            <a href="#masters" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
+              Мастера
+            </a>
             <a href="#pricing" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
               Цены
             </a>

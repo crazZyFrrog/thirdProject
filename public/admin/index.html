@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Админка записи — Мастерская красоты ЛТ</title>
+  <style>
+    :root {
+      --bg: #faf8f6;
+      --card: #fff;
+      --text: #2c2420;
+      --muted: #6b5f58;
+      --accent: #8b5a4a;
+      --accent-hover: #734839;
+      --border: #e8ddd6;
+      --error: #b42318;
+      --ok: #067647;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 1.25rem; }
+    h1 { font-size: 1.35rem; margin: 0 0 0.25rem; }
+    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+      margin-bottom: 0.85rem;
+    }
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.65rem 1.1rem;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-hover); }
+    button.secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+    button.danger { background: #b42318; }
+    button.danger:hover { background: #912018; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .tabs button { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .msg { padding: 0.65rem 0.85rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; }
+    .msg.err { background: #fef3f2; color: var(--error); border: 1px solid #fecdca; }
+    .msg.ok { background: #ecfdf3; color: var(--ok); border: 1px solid #abefc6; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { text-align: left; padding: 0.5rem 0.35rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; }
+    .hidden { display: none !important; }
+    .badge { font-size: 0.75rem; padding: 0.15rem 0.45rem; border-radius: 4px; background: #f3ebe6; }
+    .badge.phone { background: #e0f2fe; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Записи салона</h1>
+    <p class="sub">Мастерская красоты ЛТ — отпуска, телефонные записи, закрытие слотов</p>
+
+    <div id="loginView" class="card">
+      <label for="password">Пароль админки</label>
+      <input type="password" id="password" autocomplete="current-password" />
+      <button type="button" id="loginBtn">Войти</button>
+      <p id="loginHint" class="sub" style="margin-top:1rem;margin-bottom:0">
+        Пароль задаётся в <code>api/config.php</code> → <code>admin_password</code>
+      </p>
+    </div>
+
+    <div id="appView" class="hidden">
+      <div class="tabs">
+        <button type="button" data-tab="phone" class="active">Запись по телефону</button>
+        <button type="button" data-tab="block">Закрыть время</button>
+        <button type="button" data-tab="vacation">Отпуск</button>
+        <button type="button" data-tab="list">Список записей</button>
+      </div>
+      <div id="flash"></div>
+
+      <section id="tab-phone" class="card">
+        <h2 style="margin-top:0;font-size:1.1rem">Запись по телефону</h2>
+        <p class="sub" style="margin-top:-0.5rem">Слот исчезнет на сайте; уведомление уйдёт в Telegram/VK</p>
+        <label>Мастер</label>
+        <select id="phoneMaster"></select>
+        <label>Услуга</label>
+        <select id="phoneService"></select>
+        <div class="row2">
+          <div>
+            <label>Дата</label>
+            <input type="date" id="phoneDate" />
+          </div>
+          <div>
+            <label>Время начала</label>
+            <input type="time" id="phoneTime" step="900" />
+          </div>
+        </div>
+        <label>Имя клиента</label>
+        <input type="text" id="phoneName" />
+        <label>Телефон</label>
+        <input type="tel" id="phonePhone" placeholder="+7 (4842) ..." />
+        <label>Комментарий</label>
+        <textarea id="phoneMessage" rows="2"></textarea>
+        <button type="button" id="phoneSubmit">Сохранить запись</button>
+      </section>
+
+      <section id="tab-block" class="card hidden">
+        <h2 style="margin-top:0;font-size:1.1rem">Закрыть время без клиента</h2>
+        <label>Мастер</label>
+        <select id="blockMaster"></select>
+        <div class="row2">
+          <div>
+            <label>Дата</label>
+            <input type="date" id="blockDate" />
+          </div>
+          <div>
+            <label>Время начала</label>
+            <input type="time" id="blockTime" step="900" />
+          </div>
+        </div>
+        <label>Длительность (минут)</label>
+        <input type="number" id="blockDuration" min="15" step="15" value="60" />
+        <label>Примечание</label>
+        <input type="text" id="blockNote" value="Закрыто" />
+        <button type="button" id="blockSubmit">Закрыть слот</button>
+      </section>
+
+      <section id="tab-vacation" class="card hidden">
+        <h2 style="margin-top:0;font-size:1.1rem">Отпуск / выходные дни</h2>
+        <label>Мастер</label>
+        <select id="vacMaster"></select>
+        <div class="row2">
+          <div>
+            <label>С</label>
+            <input type="date" id="vacFrom" />
+          </div>
+          <div>
+            <label>По</label>
+            <input type="date" id="vacTo" />
+          </div>
+        </div>
+        <label>Примечание</label>
+        <input type="text" id="vacNote" value="Отпуск" />
+        <button type="button" id="vacSubmit">Добавить отпуск</button>
+        <h3 style="font-size:1rem;margin:1.25rem 0 0.5rem">Текущие отпуска</h3>
+        <div id="vacList"></div>
+      </section>
+
+      <section id="tab-list" class="card hidden">
+        <h2 style="margin-top:0;font-size:1.1rem">Последние записи</h2>
+        <button type="button" class="secondary" id="refreshBookings" style="margin-bottom:0.75rem">Обновить</button>
+        <div id="bookingsList"></div>
+      </section>
+
+      <p style="text-align:center">
+        <button type="button" class="secondary" id="logoutBtn">Выйти</button>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'salon_lt_admin_pw'
+    let config = { masters: [] }
+
+    function getPassword() {
+      return sessionStorage.getItem(STORAGE_KEY) || ''
+    }
+
+    function setPassword(pw) {
+      if (pw) sessionStorage.setItem(STORAGE_KEY, pw)
+      else sessionStorage.removeItem(STORAGE_KEY)
+    }
+
+    function flash(text, ok) {
+      const el = document.getElementById('flash')
+      el.className = 'msg ' + (ok ? 'ok' : 'err')
+      el.textContent = text
+      el.classList.remove('hidden')
+      if (ok) setTimeout(() => el.classList.add('hidden'), 4000)
+    }
+
+    async function parseJsonResponse(res) {
+      const text = await res.text()
+      if (!text) {
+        throw new Error('Сервер вернул пустой ответ (ошибка PHP). Загрузите api/lib/schedule.php и включите PHP 8 + SQLite.')
+      }
+      try {
+        return JSON.parse(text)
+      } catch {
+        throw new Error('Сервер вернул не JSON. Проверьте файлы в папке api/ на хостинге.')
+      }
+    }
+
+    async function api(action, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Admin-Password': getPassword(),
+      }
+      const url = '/api/admin.php?action=' + encodeURIComponent(action)
+      const res = await fetch(url, { ...options, headers: { ...headers, ...options.headers } })
+      const data = await parseJsonResponse(res)
+      if (!res.ok) throw new Error(data.detail || data.error || 'Ошибка запроса')
+      return data
+    }
+
+    async function loadConfig() {
+      try {
+        const res = await fetch('/api/booking-config.php')
+        const data = await parseJsonResponse(res)
+        if (!res.ok) throw new Error(data.error || 'Не удалось загрузить мастеров')
+        config = data
+      } catch (e) {
+        config = await api('config', { method: 'GET' })
+      }
+      fillMasterSelects()
+    }
+
+    function fillMasterSelects() {
+      const ids = ['phoneMaster', 'blockMaster', 'vacMaster']
+      ids.forEach((id) => {
+        const sel = document.getElementById(id)
+        sel.innerHTML = ''
+        config.masters.forEach((m) => {
+          const opt = document.createElement('option')
+          opt.value = m.id
+          opt.textContent = m.name + (m.role ? ' — ' + m.role : '')
+          sel.appendChild(opt)
+        })
+      })
+      updatePhoneServices()
+    }
+
+    function updatePhoneServices() {
+      const masterId = document.getElementById('phoneMaster').value
+      const master = config.masters.find((m) => m.id === masterId)
+      const sel = document.getElementById('phoneService')
+      sel.innerHTML = ''
+      if (!master) return
+      master.serviceGroups.forEach((g) => {
+        const og = document.createElement('optgroup')
+        og.label = g.title
+        g.options.forEach((o) => {
+          const opt = document.createElement('option')
+          opt.value = o.value
+          opt.textContent = o.label + ' (' + o.durationMinutes + ' мин)'
+          og.appendChild(opt)
+        })
+        sel.appendChild(og)
+      })
+    }
+
+    function showApp() {
+      document.getElementById('loginView').classList.add('hidden')
+      document.getElementById('appView').classList.remove('hidden')
+    }
+
+    function showLogin() {
+      document.getElementById('appView').classList.add('hidden')
+      document.getElementById('loginView').classList.remove('hidden')
+    }
+
+    async function tryLogin(pw) {
+      setPassword(pw)
+      await api('ping', { method: 'GET' })
+      showApp()
+      await loadConfig()
+      await loadVacations()
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const pw = document.getElementById('password').value.trim()
+      if (!pw) return flash('Введите пароль', false)
+      try {
+        await tryLogin(pw)
+      } catch (e) {
+        setPassword('')
+        flash(e.message, false)
+      }
+    })
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      setPassword('')
+      showLogin()
+    })
+
+    document.querySelectorAll('.tabs button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tabs button').forEach((b) => b.classList.remove('active'))
+        btn.classList.add('active')
+        const tab = btn.dataset.tab
+        ;['phone', 'block', 'vacation', 'list'].forEach((t) => {
+          document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab)
+        })
+        if (tab === 'list') loadBookings()
+        if (tab === 'vacation') loadVacations()
+      })
+    })
+
+    document.getElementById('phoneMaster').addEventListener('change', updatePhoneServices)
+
+    document.getElementById('phoneSubmit').addEventListener('click', async () => {
+      try {
+        await api('phone-booking', {
+          method: 'POST',
+          body: JSON.stringify({
+            master: document.getElementById('phoneMaster').value,
+            service: document.getElementById('phoneService').value,
+            date: document.getElementById('phoneDate').value,
+            time: document.getElementById('phoneTime').value,
+            name: document.getElementById('phoneName').value,
+            phone: document.getElementById('phonePhone').value,
+            message: document.getElementById('phoneMessage').value,
+          }),
+        })
+        flash('Запись сохранена', true)
+      } catch (e) {
+        flash(e.message, false)
+      }
+    })
+
+    document.getElementById('blockSubmit').addEventListener('click', async () => {
+      try {
+        await api('block-slot', {
+          method: 'POST',
+          body: JSON.stringify({
+            master: document.getElementById('blockMaster').value,
+            date: document.getElementById('blockDate').value,
+            time: document.getElementById('blockTime').value,
+            durationMinutes: Number(document.getElementById('blockDuration').value),
+            note: document.getElementById('blockNote').value,
+          }),
+        })
+        flash('Время закрыто на сайте', true)
+      } catch (e) {
+        flash(e.message, false)
+      }
+    })
+
+    document.getElementById('vacSubmit').addEventListener('click', async () => {
+      try {
+        await api('blocked-period', {
+          method: 'POST',
+          body: JSON.stringify({
+            master: document.getElementById('vacMaster').value,
+            dateFrom: document.getElementById('vacFrom').value,
+            dateTo: document.getElementById('vacTo').value,
+            note: document.getElementById('vacNote').value,
+          }),
+        })
+        flash('Отпуск добавлен', true)
+        await loadVacations()
+      } catch (e) {
+        flash(e.message, false)
+      }
+    })
+
+    async function loadVacations() {
+      try {
+        const data = await api('blocked-periods', { method: 'GET' })
+        const el = document.getElementById('vacList')
+        if (!data.periods?.length) {
+          el.innerHTML = '<p class="sub">Нет активных отпусков</p>'
+          return
+        }
+        el.innerHTML = '<table><thead><tr><th>Мастер</th><th>Период</th><th></th></tr></thead><tbody></tbody></table>'
+        const tbody = el.querySelector('tbody')
+        data.periods.forEach((p) => {
+          const tr = document.createElement('tr')
+          tr.innerHTML = `<td>${p.master_name}</td><td>${p.date_from} — ${p.date_to}<br><small>${p.note || ''}</small></td><td></td>`
+          const btn = document.createElement('button')
+          btn.className = 'danger'
+          btn.textContent = 'Удалить'
+          btn.type = 'button'
+          btn.onclick = async () => {
+            if (!confirm('Удалить отпуск?')) return
+            try {
+              await api('delete-blocked-period', { method: 'POST', body: JSON.stringify({ id: p.id }) })
+              await loadVacations()
+            } catch (e) {
+              flash(e.message, false)
+            }
+          }
+          tr.cells[2].appendChild(btn)
+          tbody.appendChild(tr)
+        })
+      } catch (e) {
+        document.getElementById('vacList').innerHTML = '<p class="sub">' + e.message + '</p>'
+      }
+    }
+
+    async function loadBookings() {
+      try {
+        const data = await api('bookings', { method: 'GET' })
+        const el = document.getElementById('bookingsList')
+        if (!data.bookings?.length) {
+          el.innerHTML = '<p class="sub">Записей пока нет</p>'
+          return
+        }
+        el.innerHTML = '<table><thead><tr><th>Дата</th><th>Клиент</th><th>Мастер</th><th></th></tr></thead><tbody></tbody></table>'
+        const tbody = el.querySelector('tbody')
+        data.bookings.forEach((b) => {
+          const tr = document.createElement('tr')
+          const src = b.source === 'phone' ? '<span class="badge phone">телефон</span>' : '<span class="badge">сайт</span>'
+          tr.innerHTML = `<td>${b.date} ${b.time}–${b.endTime}<br>${src}</td><td>${b.name}<br><small>${b.phone}</small><br><small>${b.service_label}</small></td><td>${b.master_name}</td><td></td>`
+          const btn = document.createElement('button')
+          btn.className = 'danger'
+          btn.textContent = 'Удалить'
+          btn.type = 'button'
+          btn.onclick = async () => {
+            if (!confirm('Удалить запись? Слот снова станет свободным на сайте.')) return
+            try {
+              await api('delete-booking', { method: 'POST', body: JSON.stringify({ id: b.id }) })
+              await loadBookings()
+            } catch (e) {
+              flash(e.message, false)
+            }
+          }
+          tr.cells[3].appendChild(btn)
+          tbody.appendChild(tr)
+        })
+      } catch (e) {
+        document.getElementById('bookingsList').innerHTML = '<p class="sub">' + e.message + '</p>'
+      }
+    }
+
+    document.getElementById('refreshBookings').addEventListener('click', loadBookings)
+
+    ;(async function init() {
+      const pw = getPassword()
+      if (pw) {
+        try {
+          await tryLogin(pw)
+        } catch {
+          setPassword('')
+          showLogin()
+        }
+      }
+    })()
+  </script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { X, User, Mail, Phone, Calendar, MessageSquare, Check, Loader2, Clock, Scissors } from 'lucide-react'
 
+const PHONE_PREFIX = '+7 '
+
 const getMinDate = () => {
   const now = new Date()
   const year = now.getFullYear()
@@ -9,12 +11,26 @@ const getMinDate = () => {
   return `${year}-${month}-${day}`
 }
 
+const normalizePhone = (value) => {
+  const digits = value.replace(/\D/g, '')
+  let national = digits
+
+  if (national.startsWith('7')) {
+    national = national.slice(1)
+  } else if (national.startsWith('8')) {
+    national = national.slice(1)
+  }
+
+  national = national.slice(0, 10)
+  return PHONE_PREFIX + national
+}
+
 const BookingModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     master: '',
     name: '',
     email: '',
-    phone: '',
+    phone: PHONE_PREFIX,
     service: '',
     date: '',
     time: '',
@@ -40,6 +56,11 @@ const BookingModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!isOpen) return
+
+    setFormData((prev) => ({
+      ...prev,
+      phone: prev.phone.startsWith('+7') ? prev.phone : PHONE_PREFIX,
+    }))
 
     const controller = new AbortController()
     setIsConfigLoading(true)
@@ -130,8 +151,9 @@ const BookingModal = ({ isOpen, onClose }) => {
       newErrors.email = 'Введите корректный email'
     }
 
-    if (!formData.phone.trim() || !/^[\d\s\+\-\(\)]+$/.test(formData.phone)) {
-      newErrors.phone = 'Введите корректный телефон'
+    const phoneDigits = formData.phone.replace(/\D/g, '')
+    if (phoneDigits.length < 11 || !phoneDigits.startsWith('7')) {
+      newErrors.phone = 'Введите номер полностью: +7 и 10 цифр'
     }
 
     if (!formData.service) {
@@ -194,7 +216,7 @@ const BookingModal = ({ isOpen, onClose }) => {
           master: '',
           name: '',
           email: '',
-          phone: '',
+          phone: PHONE_PREFIX,
           service: '',
           date: '',
           time: '',
@@ -212,6 +234,24 @@ const BookingModal = ({ isOpen, onClose }) => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handlePhoneChange = (e) => {
+    const value = normalizePhone(e.target.value)
+    setFormData((prev) => ({ ...prev, phone: value }))
+    if (errors.phone) {
+      setErrors((prev) => ({ ...prev, phone: '' }))
+    }
+    if (submitError) {
+      setSubmitError('')
+    }
+  }
+
+  const handlePhoneFocus = () => {
+    setFormData((prev) => {
+      if (prev.phone.startsWith('+7')) return prev
+      return { ...prev, phone: PHONE_PREFIX }
+    })
   }
 
   const handleChange = (e) => {
@@ -463,7 +503,8 @@ const BookingModal = ({ isOpen, onClose }) => {
                       id="phone"
                       name="phone"
                       value={formData.phone}
-                      onChange={handleChange}
+                      onChange={handlePhoneChange}
+                      onFocus={handlePhoneFocus}
                       disabled={isLoading}
                       className={`w-full pl-12 pr-4 py-3 rounded-xl border ${
                         errors.phone ? 'border-red-500' : 'border-gray-300'

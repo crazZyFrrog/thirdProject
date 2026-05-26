@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import Problem from './components/Problem'
 import Solution from './components/Solution'
+import Masters from './components/Masters'
 import HowItWorks from './components/HowItWorks'
 import Testimonials from './components/Testimonials'
 import Pricing from './components/Pricing'
@@ -34,6 +35,7 @@ function App() {
       <Hero onBookingClick={openBookingModal} />
       <Problem />
       <Solution />
+      <Masters />
       <HowItWorks />
       <Testimonials />
       <Pricing onBookingClick={openBookingModal} />

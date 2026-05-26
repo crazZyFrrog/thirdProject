@@ -1,12 +1,13 @@
 import React from 'react'
 import { Check, Sparkles, Heart, Award, Users } from 'lucide-react'
+import { getVkMessagesUrl } from '../config/contacts'
 
 const Hero = ({ onBookingClick }) => {
   const benefits = [
-    { icon: Award, text: 'Мастера с опытом 20+ лет' },
+    { icon: Award, text: 'Мастера с опытом 15+ лет' },
     { icon: Users, text: 'Стрижки, ногти, брови' },
     { icon: Heart, text: 'Индивидуальный подход' },
-    { icon: Check, text: 'Консультация перед процедурой' }
+    { icon: Check, text: 'Запись онлайн и в ВКонтакте' }
   ]
 
   return (
@@ -29,7 +30,7 @@ const Hero = ({ onBookingClick }) => {
             </h1>
             
             <p className="text-xl text-gray-600 leading-relaxed max-w-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              Семейный салон на ул. Глаголевой: стрижки и окрашивание, маникюр и педикюр, брови и ресницы. 
+              Семейный салон на ул. Глаголева: стрижки и окрашивание, маникюр и педикюр, брови и ресницы. 
               В команде — опытные мастера с многолетним стажем. Спокойная атмосфера, внимание к деталям и результат, с которым вам комфортно каждый день.
             </p>
             
@@ -37,9 +38,14 @@ const Hero = ({ onBookingClick }) => {
               <button onClick={onBookingClick} className="btn-primary text-lg">
                 Записаться
               </button>
-              <button onClick={onBookingClick} className="btn-secondary text-lg">
-                Получить консультацию
-              </button>
+              <a
+                href={getVkMessagesUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary text-lg text-center"
+              >
+                Написать в ВКонтакте
+              </a>
             </div>
             
             <div className="grid sm:grid-cols-2 gap-4 pt-8 animate-slide-up" style={{ animationDelay: '0.3s' }}>
@@ -57,9 +63,9 @@ const Hero = ({ onBookingClick }) => {
           <div className="relative animate-scale-in" style={{ animationDelay: '0.2s' }}>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/5]">
               <img 
-                src="/images/Master_Tatyana.jpg" 
+                src="/images/salon_lt.jpg" 
                 alt="Мастерская красоты ЛТ — салон красоты в Калуге"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover object-center"
                 loading="eager"
               />
               
@@ -74,7 +80,7 @@ const Hero = ({ onBookingClick }) => {
                   
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <div className="text-3xl font-bold text-accent-700 font-display">20+</div>
+                      <div className="text-3xl font-bold text-accent-700 font-display">15+</div>
                       <div className="text-sm text-gray-600 mt-1">Лет опыта мастеров</div>
                     </div>
                     <div>

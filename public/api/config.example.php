@@ -12,4 +12,6 @@ return [
     // Максимум заявок с одного IP за окно (секунды)
     'rate_limit_max' => 5,
     'rate_limit_window' => 60,
+    // Пароль для https://ваш-домен/admin/ (заголовок X-Admin-Password)
+    'admin_password' => 'CHANGE_ME_strong_password',
 ];

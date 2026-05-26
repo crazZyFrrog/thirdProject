@@ -8,7 +8,7 @@
     "thursday": { "open": "10:00", "close": "20:00" },
     "friday": { "open": "10:00", "close": "20:00" },
     "saturday": { "open": "10:00", "close": "18:00" },
-    "sunday": null
+    "sunday": { "open": "10:00", "close": "18:00" }
   },
   "masters": {
     "tatyana": {
@@ -18,7 +18,7 @@
       "serviceGroups": [
         {
           "title": "Стрижки",
-          "services": ["womens-haircut", "mens-haircut", "kids-haircut", "consultation"]
+          "services": ["womens-haircut", "mens-haircut", "kids-haircut"]
         },
         {
           "title": "Окрашивание",
@@ -26,7 +26,11 @@
         },
         {
           "title": "Причёски",
-          "services": ["hairstyle", "styling"]
+          "services": ["hairstyle", "styling", "bio-wave"]
+        },
+        {
+          "title": "Брови и ресницы",
+          "services": ["brows-correction", "brows-coloring", "lashes-coloring"]
         }
       ]
     },
@@ -37,7 +41,7 @@
       "serviceGroups": [
         {
           "title": "Стрижки",
-          "services": ["womens-haircut", "mens-haircut", "kids-haircut", "consultation"]
+          "services": ["womens-haircut", "mens-haircut", "kids-haircut"]
         },
         {
           "title": "Окрашивание",
@@ -46,21 +50,30 @@
         {
           "title": "Причёски",
           "services": ["hairstyle", "styling"]
+        },
+        {
+          "title": "Брови и ресницы",
+          "services": ["brows-correction", "brows-coloring", "lashes-coloring"]
         }
       ]
     },
     "olesya": {
       "name": "Олеся",
-      "role": "Мастер маникюра и бровей",
+      "role": "Мастер маникюра и педикюра",
       "schedule": null,
       "serviceGroups": [
         {
-          "title": "Брови и ресницы",
-          "services": ["brows-correction", "brows-coloring", "lashes-coloring"]
-        },
-        {
           "title": "Маникюр и педикюр",
-          "services": ["nails-correction", "gel-polish", "hardware-manicure", "classic-manicure", "smart-pedicure", "mens-pedicure"]
+          "services": [
+            "nails-correction",
+            "gel-polish",
+            "hardware-manicure",
+            "european-manicure",
+            "classic-manicure",
+            "toes-pedicure",
+            "smart-pedicure",
+            "mens-pedicure"
+          ]
         }
       ]
     }
@@ -69,20 +82,22 @@
     "brows-correction": { "label": "Коррекция бровей", "durationMinutes": 30 },
     "brows-coloring": { "label": "Окрашивание бровей", "durationMinutes": 30 },
     "lashes-coloring": { "label": "Окрашивание ресниц", "durationMinutes": 30 },
-    "nails-correction": { "label": "Коррекция ногтей", "durationMinutes": 90 },
+    "nails-correction": { "label": "Коррекция ногтей", "durationMinutes": 120 },
     "gel-polish": { "label": "Покрытие гель-лаком", "durationMinutes": 90 },
     "hardware-manicure": { "label": "Аппаратный маникюр", "durationMinutes": 60 },
+    "european-manicure": { "label": "Европейский маникюр", "durationMinutes": 60 },
     "classic-manicure": { "label": "Классический маникюр", "durationMinutes": 60 },
+    "toes-pedicure": { "label": "Педикюр «Пальчики»", "durationMinutes": 60 },
     "smart-pedicure": { "label": "Smart педикюр", "durationMinutes": 120 },
     "mens-pedicure": { "label": "Мужской педикюр", "durationMinutes": 90 },
-    "hairstyle": { "label": "Причёска", "durationMinutes": 90 },
-    "styling": { "label": "Укладка волос", "durationMinutes": 60 },
+    "hairstyle": { "label": "Причёска", "durationMinutes": 150 },
+    "styling": { "label": "Укладка волос", "durationMinutes": 75 },
+    "bio-wave": { "label": "Биозавивка / долговременная укладка", "durationMinutes": 135 },
     "roots-coloring": { "label": "Окрашивание корней", "durationMinutes": 90 },
-    "coloring": { "label": "Колорирование / окрашивание", "durationMinutes": 150 },
+    "coloring": { "label": "Колорирование / окрашивание", "durationMinutes": 210 },
     "highlights": { "label": "Мелирование", "durationMinutes": 180 },
     "womens-haircut": { "label": "Женская стрижка", "durationMinutes": 60 },
     "mens-haircut": { "label": "Мужская стрижка", "durationMinutes": 45 },
-    "kids-haircut": { "label": "Детская стрижка", "durationMinutes": 45 },
-    "consultation": { "label": "Консультация", "durationMinutes": 30 }
+    "kids-haircut": { "label": "Детская стрижка", "durationMinutes": 45 }
   }
 }
