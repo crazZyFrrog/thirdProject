@@ -49,9 +49,9 @@ npm run build
 2. Загрузите **содержимое** папки `dist/` в `public_html/` (FTP/SFTP или файловый менеджер)
 3. На сервере создайте `public_html/api/config.php` на основе `config.example.php`:
    - `telegram_bot_token` — от @BotFather
-   - `telegram_chat_id` — ID чата админа
-   - `vk_access_token` — токен сообщества VK
-   - `vk_admin_user_id` — VK ID админа
+   - `telegram_chat_id` — ID **группы** мастеров (с минусом, например `-1003975356754`)
+   - `admin_password` — пароль админки `/admin/`
+   - VK (`vk_access_token`, `vk_peer_id`) — позже, можно оставить пустым
 
 **Важно:** `config.php` не должен попадать в git. На сервере создаётся вручную.
 
@@ -79,8 +79,8 @@ npm run build
 
 - [ ] Сайт открывается по HTTPS
 - [ ] Все JS/CSS загружаются (нет белого экрана)
-- [ ] Форма записи → уведомление в Telegram
-- [ ] Форма записи → уведомление в VK
+- [ ] Форма записи → уведомление в Telegram (группа мастеров)
+- [ ] https://salonlt.ru/api/health.php → ok, telegramConfigured: true
 - [ ] Тест с мобильного интернета в городе заказчика
 
 ## Переменные окружения (фронтенд)
@@ -106,28 +106,35 @@ public_html/
 ├── index.html
 ├── assets/
 ├── images/
+├── admin/index.html
 ├── api/
-│   ├── booking.php
-│   └── config.php          ← только на сервере
+│   ├── booking.php, admin.php, health.php
+│   ├── lib/notify.php, schedule.php
+│   └── config.php          ← только на сервере, не перезаписывать
 ├── .htaccess
 ├── robots.txt
 ├── sitemap.xml
 └── favicon.svg
 ```
 
-## Настройка Telegram
+## Настройка Telegram (группа для мастеров)
 
 1. Создайте бота через [@BotFather](https://t.me/BotFather)
-2. Админ пишет боту `/start`
-3. Узнайте `chat_id` через `getUpdates` или @userinfobot
-4. Укажите токены в `api/config.php`
+2. Создайте группу «Записи — Мастерская ЛТ», добавьте мастеров и бота
+3. Сделайте бота администратором группы (или разрешите писать сообщения)
+4. Узнайте ID группы: добавьте [@userinfobot](https://t.me/userinfobot) → «This group ID: -100…»
+5. В `api/config.php`:
+   ```php
+   'telegram_bot_token' => '...',
+   'telegram_chat_id' => '-1003975356754',
+   ```
+6. Один раз напишите боту `/start` в личке
 
-## Настройка VK
+Подробнее: [HANDOVER.md](HANDOVER.md)
 
-1. Создайте сообщество → включите «Сообщения сообщества»
-2. Получите access token с правами `messages`
-3. Админ должен **первым написать** сообществу
-4. Укажите токен и `user_id` в `api/config.php`
+## Настройка VK (позже)
+
+Планируется беседа в сообществе VK (`vk_peer_id`). Сейчас достаточно Telegram. См. [HANDOVER.md](HANDOVER.md).
 
 ## Обновление сайта
 

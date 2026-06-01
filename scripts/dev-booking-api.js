@@ -45,31 +45,41 @@ function verifyAdmin(req, config) {
   return { ok: true }
 }
 
+function getTelegramChatIds(config) {
+  const ids = []
+  const primary = (config.telegram_chat_id ?? '').trim()
+  if (primary) ids.push(primary)
+  return [...new Set(ids)]
+}
+
 async function sendTelegram(config, text) {
   const token = config.telegram_bot_token
-  const chatId = config.telegram_chat_id
-  if (!token || !chatId || token.includes('YOUR_')) {
+  const chatIds = getTelegramChatIds(config)
+  if (!token || chatIds.length === 0 || token.includes('YOUR_')) {
     return { ok: false, error: 'Укажите telegram_bot_token и telegram_chat_id в public/api/config.php' }
   }
 
-  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text }),
-  })
+  let lastError = 'Неизвестная ошибка Telegram'
+  for (const chatId of chatIds) {
+    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text }),
+    })
 
-  const data = await response.json()
-  if (data?.ok === true) return { ok: true }
+    const data = await response.json()
+    if (data?.ok === true) return { ok: true }
 
-  const description = data?.description || 'Неизвестная ошибка Telegram'
-  if (description.includes('chat not found')) {
-    return {
-      ok: false,
-      error: 'Telegram: чат не найден. Откройте @salon_lt_bot и нажмите /start.',
+    lastError = data?.description || lastError
+    if (lastError.includes('chat not found')) {
+      return {
+        ok: false,
+        error: 'Telegram: чат не найден. Добавьте бота в группу и нажмите /start в личке.',
+      }
     }
   }
 
-  return { ok: false, error: `Telegram: ${description}` }
+  return { ok: false, error: `Telegram: ${lastError}` }
 }
 
 function readBody(req) {

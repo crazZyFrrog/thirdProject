@@ -30,12 +30,24 @@ $checks['scheduleLoads'] = $scheduleOk;
 $checks['scheduleError'] = $scheduleError;
 
 $adminPasswordSet = false;
+$telegramConfigured = false;
+$telegramChatCount = 0;
+
 if ($checks['configPhp']) {
     $cfg = require __DIR__ . '/config.php';
-    $pw = is_array($cfg) ? trim((string) ($cfg['admin_password'] ?? '')) : '';
-    $adminPasswordSet = $pw !== '' && strpos($pw, 'CHANGE_ME') === false;
+    if (is_array($cfg)) {
+        $pw = trim((string) ($cfg['admin_password'] ?? ''));
+        $adminPasswordSet = $pw !== '' && strpos($pw, 'CHANGE_ME') === false;
+
+        require_once __DIR__ . '/lib/notify.php';
+        $telegramConfigured = isTelegramConfigured($cfg);
+        $telegramChatCount = count(getTelegramChatIds($cfg));
+    }
 }
+
 $checks['adminPasswordSet'] = $adminPasswordSet;
+$checks['telegramConfigured'] = $telegramConfigured;
+$checks['telegramChatCount'] = $telegramChatCount;
 
 $ok = $checks['pdoSqlite'] && $checks['serviceConfig'] && $checks['scheduleLoads'];
 

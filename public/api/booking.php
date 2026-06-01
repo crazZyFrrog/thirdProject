@@ -20,6 +20,7 @@ if (!file_exists($configPath)) {
 /** @var array<string, mixed> $config */
 $config = require $configPath;
 require_once __DIR__ . '/lib/schedule.php';
+require_once __DIR__ . '/lib/notify.php';
 
 $rawBody = file_get_contents('php://input');
 $data = json_decode($rawBody ?: '', true);
@@ -46,10 +47,7 @@ try {
     $booking = createBookingRecord($data);
     $notificationText = buildBookingNotification($booking);
 
-    $results = [
-        'telegram' => sendTelegram($config, $notificationText),
-        'vk' => sendVk($config, $notificationText),
-    ];
+    $results = sendBookingNotifications($config, $notificationText);
 
     $successCount = count(array_filter($results));
     if ($successCount === 0) {
@@ -124,96 +122,4 @@ function checkRateLimit(string $ip, array $config): bool
     file_put_contents($file, json_encode($requests));
 
     return true;
-}
-
-function sendTelegram(array $config, string $text): bool
-{
-    $token = trim((string) ($config['telegram_bot_token'] ?? ''));
-    $chatId = trim((string) ($config['telegram_chat_id'] ?? ''));
-
-    if ($token === '' || $chatId === '' || strpos($token, 'YOUR_') !== false) {
-        return false;
-    }
-
-    $url = "https://api.telegram.org/bot{$token}/sendMessage";
-
-    $response = httpPostJson($url, [
-        'chat_id' => $chatId,
-        'text' => $text,
-    ]);
-
-    return is_array($response) && ($response['ok'] ?? false) === true;
-}
-
-function sendVk(array $config, string $text): bool
-{
-    $token = trim((string) ($config['vk_access_token'] ?? ''));
-    $userId = trim((string) ($config['vk_admin_user_id'] ?? ''));
-
-    if ($token === '' || $userId === '' || strpos($token, 'YOUR_') !== false) {
-        return false;
-    }
-
-    $url = 'https://api.vk.com/method/messages.send';
-
-    $response = httpPostForm($url, [
-        'access_token' => $token,
-        'v' => '5.131',
-        'user_id' => $userId,
-        'random_id' => (string) random_int(1, 2147483647),
-        'message' => $text,
-    ]);
-
-    return is_array($response) && isset($response['response']);
-}
-
-function httpPostJson(string $url, array $payload): ?array
-{
-    if (!function_exists('curl_init')) {
-        return null;
-    }
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_TIMEOUT => 10,
-    ]);
-
-    $body = curl_exec($ch);
-    curl_close($ch);
-
-    if ($body === false) {
-        return null;
-    }
-
-    $decoded = json_decode($body, true);
-    return is_array($decoded) ? $decoded : null;
-}
-
-function httpPostForm(string $url, array $payload): ?array
-{
-    if (!function_exists('curl_init')) {
-        return null;
-    }
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POSTFIELDS => http_build_query($payload),
-        CURLOPT_TIMEOUT => 10,
-    ]);
-
-    $body = curl_exec($ch);
-    curl_close($ch);
-
-    if ($body === false) {
-        return null;
-    }
-
-    $decoded = json_decode($body, true);
-    return is_array($decoded) ? $decoded : null;
 }
