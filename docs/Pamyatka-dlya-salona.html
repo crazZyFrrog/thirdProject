@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Памятка для салона — Мастерская красоты ЛТ</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 11pt;
+      line-height: 1.45;
+      color: #1a1a1a;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 12mm;
+    }
+    h1 {
+      font-size: 20pt;
+      margin: 0 0 4px;
+      color: #5c3d32;
+    }
+    .subtitle { color: #555; margin: 0 0 20px; font-size: 11pt; }
+    h2 {
+      font-size: 13pt;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #c9a88a;
+      color: #5c3d32;
+      page-break-after: avoid;
+    }
+    h3 { font-size: 11pt; margin: 14px 0 6px; color: #333; }
+    p { margin: 6px 0; }
+    ul, ol { margin: 6px 0 10px; padding-left: 22px; }
+    li { margin: 4px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 10pt;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f5efe9; font-weight: 600; }
+    .url { color: #1a5fb4; word-break: break-all; }
+    .warn {
+      background: #fff8e6;
+      border: 1px solid #e6c200;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      font-size: 10pt;
+    }
+    .ok {
+      background: #ecfdf3;
+      border: 1px solid #86efac;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      font-size: 10pt;
+    }
+    .field {
+      display: inline-block;
+      min-width: 200px;
+      border-bottom: 1px solid #999;
+      height: 1.2em;
+      vertical-align: bottom;
+    }
+    .checkbox { margin-right: 6px; }
+    .footer {
+      margin-top: 28px;
+      padding-top: 12px;
+      border-top: 1px solid #ddd;
+      font-size: 9pt;
+      color: #666;
+    }
+    .page-break { page-break-before: always; }
+    @media print {
+      body { padding: 0; }
+      a { color: #1a1a1a; text-decoration: none; }
+      a.url::after { content: " (" attr(href) ")"; font-size: 9pt; color: #444; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Памятка для салона</h1>
+  <p class="subtitle">Мастерская красоты ЛТ · сайт и онлайн-запись · документ для администратора</p>
+
+  <h2>1. Главные ссылки</h2>
+  <table>
+    <tr><th>Назначение</th><th>Адрес</th></tr>
+    <tr><td>Сайт для клиентов</td><td class="url"><a class="url" href="https://salonlt.ru">https://salonlt.ru</a></td></tr>
+    <tr><td>Админка (записи, отпуска)</td><td class="url"><a class="url" href="https://salonlt.ru/admin/">https://salonlt.ru/admin/</a></td></tr>
+    <tr><td>Страница VK салона</td><td class="url"><a class="url" href="https://vk.com/salon_lt">https://vk.com/salon_lt</a></td></tr>
+    <tr><td>Адрес салона</td><td>г. Калуга, ул. Глаголева, д. 9</td></tr>
+    <tr><td>Телефон на сайте</td><td>+7 (4842) 55-95-72</td></tr>
+  </table>
+
+  <h2>2. Как приходят заявки о записи</h2>
+  <div class="ok">
+    <strong>Все записи с сайта и записи по телефону (из админки)</strong> приходят в группу Telegram:<br />
+    <strong>«Записи — Мастерская ЛТ»</strong>
+  </div>
+  <p>В группе должны быть:</p>
+  <ul>
+    <li>все мастера (Татьяна, Ольга, Олеся);</li>
+    <li>администратор салона;</li>
+    <li>бот <strong>@salon_lt_bot</strong> (не удалять из группы).</li>
+  </ul>
+  <p>Если сообщения перестали приходить:</p>
+  <ol>
+    <li>Проверьте, что бот <strong>@salon_lt_bot</strong> в группе.</li>
+    <li>Напишите боту в личку команду <strong>/start</strong>.</li>
+    <li>Сделайте тестовую запись на сайте.</li>
+    <li>Обратитесь к разработчику (контакты в конце документа).</li>
+  </ol>
+
+  <h2>3. Админка — краткая инструкция</h2>
+  <p>Откройте <strong>https://salonlt.ru/admin/</strong> и введите пароль (выдаётся отдельно, не в общий чат).</p>
+  <p>Добавьте страницу в закладки браузера. Пароль сохраняется до закрытия вкладки.</p>
+
+  <table>
+    <tr><th>Вкладка</th><th>Когда использовать</th></tr>
+    <tr><td><strong>Запись по телефону</strong></td><td>Клиент позвонил и записался — слот исчезнет на сайте, в Telegram придёт уведомление</td></tr>
+    <tr><td><strong>Закрыть время</strong></td><td>Обед, личное время, ремонт — без имени клиента</td></tr>
+    <tr><td><strong>Отпуск</strong></td><td>Мастер не работает несколько дней подряд — все эти дни закрыты для записи на сайте</td></tr>
+    <tr><td><strong>Список записей</strong></td><td>Посмотреть последние записи; удаление освобождает слот на сайте</td></tr>
+  </table>
+
+  <div class="warn">
+    <strong>Пароль админки:</strong> <span class="field"></span><br />
+    <span style="font-size:9pt;">(заполняется при передаче салону; хранить как пароль от кассы)</span>
+  </div>
+
+  <h2>4. Мастера и услуги на сайте</h2>
+  <table>
+    <tr><th>Мастер</th><th>Что можно записать онлайн</th></tr>
+    <tr><td><strong>Татьяна</strong>, <strong>Ольга</strong></td><td>Стрижки, окрашивание, причёски; коррекция и окрашивание бровей и ресниц</td></tr>
+    <tr><td><strong>Олеся</strong></td><td>Только маникюр и педикюр (брови и ресницы — к Татьяне или Ольге)</td></tr>
+  </table>
+  <p>Клиент на сайте: кнопка <strong>«Записаться»</strong> → мастер → услуга → дата → свободное время → имя и телефон (телефон начинается с <strong>+7</strong>).</p>
+
+  <h2>5. Доступы (заполнить при передаче)</h2>
+  <table>
+    <tr><th>Сервис</th><th>Логин / ссылка</th><th>Примечание</th></tr>
+    <tr><td>reg.ru (домен salonlt.ru)</td><td><span class="field"></span></td><td>Продление домена ~раз в год</td></tr>
+    <tr><td>Timeweb (хостинг сайта)</td><td><span class="field"></span></td><td>Оплата ~150–400 ₽/мес</td></tr>
+    <tr><td>Группа Telegram</td><td>«Записи — Мастерская ЛТ»</td><td>Пригласить новых мастеров по ссылке</td></tr>
+  </table>
+
+  <div class="warn">
+    <strong>Не сообщайте посторонним:</strong> пароль админки, пароли от reg.ru/Timeweb, токен Telegram-бота. Их знает только администратор и разработчик.
+  </div>
+
+  <h2>6. Что нельзя удалять на хостинге</h2>
+  <p>Если кто-то обновляет файлы сайта через Timeweb, <strong>нельзя затирать</strong>:</p>
+  <ul>
+    <li><strong>api/config.php</strong> — настройки Telegram и пароль админки;</li>
+    <li><strong>api/data/bookings.db</strong> — все записи клиентов.</li>
+  </ul>
+  <p>Любые правки сайта с компьютера разработчика — только через него, с сохранением этих файлов.</p>
+
+  <h2>7. Расходы (ориентир)</h2>
+  <table>
+    <tr><th>Статья</th><th>Примерно</th></tr>
+    <tr><td>Хостинг Timeweb</td><td>150–400 ₽ в месяц</td></tr>
+    <tr><td>Домен .ru</td><td>200–800 ₽ в год</td></tr>
+    <tr><td>Telegram</td><td>бесплатно</td></tr>
+  </table>
+
+  <h2>8. VK</h2>
+  <p>Уведомления о записях в VK пока <strong>не подключены</strong>. Все заявки — в Telegram. Сообщество VK для клиентов: <strong>vk.com/salon_lt</strong>.</p>
+
+  <h2>9. Чеклист: всё работает</h2>
+  <p>Отметьте при приёмке сайта:</p>
+  <ul style="list-style: none; padding-left: 0;">
+    <li><span class="checkbox">☐</span> Сайт открывается с телефона и с компьютера</li>
+    <li><span class="checkbox">☐</span> Телефон и адрес на сайте верные</li>
+    <li><span class="checkbox">☐</span> Тестовая запись с сайта → сообщение в группе Telegram</li>
+    <li><span class="checkbox">☐</span> Вход в админку, тест «запись по телефону» → сообщение в Telegram</li>
+    <li><span class="checkbox">☐</span> В браузере замок (сайт по HTTPS)</li>
+    <li><span class="checkbox">☐</span> Все мастера в группе Telegram</li>
+  </ul>
+
+  <h2>10. Разработчик и поддержка</h2>
+  <table>
+    <tr><th></th><th></th></tr>
+    <tr><td>Имя</td><td><span class="field"></span></td></tr>
+    <tr><td>Telegram / телефон</td><td><span class="field"></span></td></tr>
+    <tr><td>Условия поддержки</td><td><span class="field"></span></td></tr>
+  </table>
+
+  <div class="footer">
+    Документ подготовлен для «Мастерской красоты ЛТ» · salonlt.ru ·
+    При изменении паролей или передаче домена/хостинга обновите этот лист или запросите новый у разработчика.
+  </div>
+
+</body>
+</html>

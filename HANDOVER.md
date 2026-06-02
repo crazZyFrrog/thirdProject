@@ -1,5 +1,8 @@
 # Передача проекта «Мастерская красоты ЛТ»
 
+**Памятка для салона (PDF):** [docs/Pamyatka-dlya-salona.pdf](docs/Pamyatka-dlya-salona.pdf)  
+Исходник для правок: [docs/Pamyatka-dlya-salona.html](docs/Pamyatka-dlya-salona.html)
+
 ## Что входит в проект
 
 - Лендинг с онлайн-записью: **https://salonlt.ru**
