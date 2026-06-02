@@ -22,25 +22,25 @@ const Pricing = ({ onBookingClick }) => {
           {pricingCategories.map((category) => (
             <div
               key={category.title}
-              className="rounded-3xl p-8 bg-accent-600 border border-accent-700 shadow-lg text-white"
+              className="rounded-3xl p-8 bg-accent-600/25 backdrop-blur-sm border border-accent-500/30 shadow-md"
             >
-              <h3 className="font-display text-xl sm:text-2xl font-semibold text-white mb-2">
+              <h3 className="font-display text-xl sm:text-2xl font-semibold text-accent-900 mb-2">
                 {category.title}
               </h3>
               {category.note && (
-                <p className="text-xs text-white/80 mb-4 pb-4 border-b border-white/25">{category.note}</p>
+                <p className="text-xs text-gray-600 mb-4 pb-4 border-b border-accent-400/25">{category.note}</p>
               )}
-              {!category.note && <div className="mb-6 pb-4 border-b border-white/25" />}
+              {!category.note && <div className="mb-6 pb-4 border-b border-accent-400/25" />}
               <ul className="space-y-3">
                 {category.items.map((item) => (
                   <li key={item.name} className="flex items-start justify-between gap-4">
-                    <span className="text-white text-sm leading-relaxed">
+                    <span className="text-gray-800 text-sm leading-relaxed">
                       {item.name}
                       {item.note && (
-                        <span className="block text-xs text-white/75 mt-0.5">{item.note}</span>
+                        <span className="block text-xs text-gray-500 mt-0.5">{item.note}</span>
                       )}
                     </span>
-                    <span className="text-white font-bold whitespace-nowrap text-sm font-display">
+                    <span className="text-accent-800 font-bold whitespace-nowrap text-sm font-display">
                       {item.price}
                     </span>
                   </li>
