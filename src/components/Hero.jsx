@@ -1,5 +1,5 @@
 import React from 'react'
-import { Check, Sparkles, Heart, Award, Users } from 'lucide-react'
+import { Check, Heart, Award, Users } from 'lucide-react'
 import { getVkMessagesUrl } from '../config/contacts'
 
 const Hero = ({ onBookingClick }) => {
@@ -18,13 +18,6 @@ const Hero = ({ onBookingClick }) => {
       <div className="container-custom section-padding relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8 animate-fade-in">
-            <div className="inline-block">
-              <span className="inline-flex items-center space-x-2 bg-accent-100/80 backdrop-blur-sm text-accent-800 px-4 py-2 rounded-full text-sm font-medium">
-                <Sparkles size={16} className="text-accent-600" />
-                <span>Салон красоты в Калуге</span>
-              </span>
-            </div>
-            
             <h1 className="heading-1 animate-slide-up">
               Мастерская красоты ЛТ — ваши мастера, которым доверяют годами
             </h1>
