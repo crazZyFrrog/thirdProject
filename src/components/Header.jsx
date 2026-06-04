@@ -19,17 +19,23 @@ const Header = ({ show, onBookingClick }) => {
             </span>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#services" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <a href="#services" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
               Услуги
             </a>
-            <a href="#masters" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
+            <a href="#salon" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
+              Салон
+            </a>
+            <a href="#masters" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
               Мастера
             </a>
-            <a href="#pricing" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
+            <a href="#works" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
+              Работы
+            </a>
+            <a href="#pricing" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
               Цены
             </a>
-            <a href="#faq" className="text-gray-700 hover:text-accent-600 transition-colors font-medium">
+            <a href="#faq" className="text-gray-700 hover:text-accent-600 transition-colors font-medium text-sm">
               Вопросы
             </a>
           </nav>

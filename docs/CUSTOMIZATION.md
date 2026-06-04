@@ -132,27 +132,57 @@ fontFamily: {
 
 ## Добавление фотографий
 
-### 1. Hero секция
+### Структура папок
 
-В `src/components/Hero.jsx` замените:
-
-```jsx
-<div className="relative rounded-3xl overflow-hidden ...">
-  <img 
-    src="/images/hero-image.jpg" 
-    alt="Мастер за работой"
-    className="w-full h-full object-cover"
-  />
-</div>
+```
+public/images/
+├── salon_lt.jpg          # фасад в Hero (уже есть)
+├── Master_*.jpg          # портреты мастеров
+├── salon/                # блок «Наш салон» на сайте
+│   ├── interior-01.jpg
+│   └── ...
+└── works/                # блок «Наши работы»
+    ├── hair-01.jpg
+    ├── nails-01.jpg
+    └── brows-01.jpg
 ```
 
-### 2. Другие секции
+Имена файлов — **латиница**, без пробелов. Желательно сжать до ~1200–1600 px и &lt; 400 КБ (squoosh.app).
 
-Создайте папку `public/images/` и добавьте изображения:
-- `hero-image.jpg` - главное фото (мастер или салон)
-- `salon-interior.jpg` - интерьер салона
-- `before-after-*.jpg` - фото до/после
-- `services-*.jpg` - фото услуг
+### Галерея на сайте (данные)
+
+Все пути и подписи задаются в **`src/data/gallery.js`**:
+
+```js
+// Интерьер — секция «Наш салон»
+export const salonImages = [
+  { src: '/images/salon/interior-01.jpg', alt: 'Зона ожидания', span: 'tall' },
+  { src: '/images/salon/interior-02.jpg', alt: 'Рабочее место', span: 'normal' },
+]
+
+// Работы — секция «Наши работы»
+export const workImages = [
+  { src: '/images/works/hair-01.jpg', alt: 'Окрашивание', span: 'tall' },
+]
+```
+
+- `span` для салона и работ: `normal`, `tall`, `wide` — чередуется из `gallerySpans` в том же файле
+
+Компоненты: `SalonSection.jsx`, `WorksGallery.jsx`. Сломанные пути скрываются автоматически.
+
+### Hero и мастера
+
+- **Hero:** `public/images/salon_lt.jpg` — в `src/components/Hero.jsx`
+- **Мастера:** `src/data/masters.js` — поле `image` у каждого мастера
+
+### После добавления фото
+
+```bash
+npm run build
+```
+
+На Timeweb загрузите **`index.html`**, **`assets/`** и всю папку **`images/`** (включая `salon/` и `works/`).  
+Не заменяйте `api/config.php` и `api/data/bookings.db`.
 
 ## Изменение текстов
 
