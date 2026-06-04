@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { workImages } from '../data/gallery'
+import React, { useMemo, useState } from 'react'
+import { shuffleGalleryImages, workImages } from '../data/gallery'
 import GalleryImage from './GalleryImage'
 import ImageLightbox from './ImageLightbox'
 import { galleryGridClass, gallerySpanClass } from './galleryLayout'
 
 const WorksGallery = () => {
   const [lightboxImage, setLightboxImage] = useState(null)
+  const images = useMemo(() => shuffleGalleryImages(workImages), [])
 
   return (
     <section id="works" className="section-padding bg-white">
@@ -20,13 +21,13 @@ const WorksGallery = () => {
           </p>
         </div>
 
-        {workImages.length === 0 ? (
+        {images.length === 0 ? (
           <div className="max-w-xl mx-auto text-center rounded-2xl border border-dashed border-primary-300 bg-primary-50/80 px-6 py-12">
             <p className="text-gray-700 leading-relaxed">Фотографии работ скоро появятся на сайте.</p>
           </div>
         ) : (
           <div className={galleryGridClass}>
-            {workImages.map((image) => (
+            {images.map((image) => (
               <GalleryImage
                 key={image.src}
                 image={image}

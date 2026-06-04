@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
-import { salonImages } from '../data/gallery'
+import React, { useMemo, useState } from 'react'
+import { salonImages, shuffleGalleryImages } from '../data/gallery'
 import GalleryImage from './GalleryImage'
 import ImageLightbox from './ImageLightbox'
 import { galleryGridClass, gallerySpanClass } from './galleryLayout'
 
 const SalonSection = () => {
   const [lightboxImage, setLightboxImage] = useState(null)
+  const images = useMemo(() => shuffleGalleryImages(salonImages), [])
 
-  if (salonImages.length === 0) return null
+  if (images.length === 0) return null
 
   return (
     <section id="salon" className="section-padding-tight bg-gradient-to-b from-white to-primary-50">
@@ -23,7 +24,7 @@ const SalonSection = () => {
         </div>
 
         <div className={galleryGridClass}>
-          {salonImages.map((image) => (
+          {images.map((image) => (
             <GalleryImage
               key={image.src}
               image={image}

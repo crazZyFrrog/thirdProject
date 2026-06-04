@@ -5,6 +5,19 @@
 
 export const gallerySpans = ['normal', 'tall', 'normal', 'wide', 'normal', 'tall', 'normal', 'normal', 'tall', 'normal']
 
+/** Fisher–Yates: случайный порядок + заново расставляет span для сетки */
+export function shuffleGalleryImages(images) {
+  const shuffled = [...images]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled.map((image, i) => ({
+    ...image,
+    span: gallerySpans[i % gallerySpans.length],
+  }))
+}
+
 const salonAlts = [
   'Интерьер салона Мастерская красоты ЛТ',
   'Зона ожидания в салоне',
