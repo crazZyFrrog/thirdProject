@@ -51,7 +51,7 @@ npm run build
    - `telegram_bot_token` — от @BotFather
    - `telegram_chat_id` — ID **группы** мастеров (с минусом, например `-1003975356754`)
    - `admin_password` — пароль админки `/admin/`
-   - VK (`vk_access_token`, `vk_peer_id`) — позже, можно оставить пустым
+   - VK (`vk_access_token`, `vk_peer_id`) — беседа служебного сообщества; можно оставить пустым, если нужен только Telegram
 
 **Важно:** `config.php` не должен попадать в git. На сервере создаётся вручную.
 
@@ -132,9 +132,9 @@ public_html/
 
 Подробнее: [HANDOVER.md](HANDOVER.md)
 
-## Настройка VK (позже)
+## Настройка VK (уведомления в беседу)
 
-Планируется беседа в сообществе VK (`vk_peer_id`). Сейчас достаточно Telegram. См. [HANDOVER.md](HANDOVER.md).
+В `config.php`: `vk_access_token` (ключ сообщества, право «Сообщения»), `vk_peer_id` — id беседы (число без кавычек, например `2000000003`). Подробно: [HANDOVER.md](HANDOVER.md).
 
 ## Обновление сайта
 

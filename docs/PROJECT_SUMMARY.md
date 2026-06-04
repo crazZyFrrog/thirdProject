@@ -99,15 +99,9 @@ thirdProject/
 
 ## 📚 Документация
 
-Создано **7 подробных** файлов документации:
+Все файлы в папке **`docs/`** — оглавление: [docs/README.md](README.md). Корневой [README.md](../README.md) — краткое описание и структура репозитория.
 
-1. **README.md** - Общее описание, установка, структура
-2. **QUICK_START.md** - Быстрый старт за 13 шагов
-3. **CUSTOMIZATION.md** - Детальная кастомизация всех элементов
-4. **DEPLOY.md** - Деплой на Netlify, Vercel, GitHub Pages
-5. **INTEGRATIONS.md** - Формы, карты, аналитика, соцсети
-6. **SEO.md** - SEO оптимизация, мета-теги, Schema.org
-7. **BEST_PRACTICES.md** - Лучшие практики разработки
+Основные: HANDOVER, DEPLOY, CUSTOMIZATION, TELEGRAM_SETUP, INTEGRATIONS, SEO, QUICK_START, BEST_PRACTICES.
 
 ## 🚀 Запуск
 

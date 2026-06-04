@@ -1,138 +1,60 @@
-# Premium Landing для Семейной Парикмахерской
+# Мастерская красоты ЛТ — сайт и онлайн-запись
 
-Современный адаптивный лендинг для семейной парикмахерской с опытом более 25 лет.
+**Продакшен:** https://salonlt.ru  
+**Админка:** https://salonlt.ru/admin/
 
-## Особенности
+Лендинг салона в Калуге: онлайн-запись, уведомления в Telegram и VK, расписание мастеров.
 
-- ✨ Современный premium-дизайн
-- 📱 Mobile-first адаптивность
-- 🎨 Плавные анимации и переходы
-- 🎯 8 продуманных секций
-- 💬 Интеграция WhatsApp
-- 🚀 Высокая производительность
-- ♿ SEO-friendly структура
-
-## Технологии
-
-- React 18
-- Vite
-- Tailwind CSS
-- Framer Motion
-- Lucide React (иконки)
-
-## Структура лендинга
-
-1. **Hero** - Главный экран с призывом к действию
-2. **Problem** - Описание проблем клиентов
-3. **Solution** - Преимущества и решения
-4. **How It Works** - Процесс записи
-5. **Testimonials** - Отзывы клиентов
-6. **Pricing** - Цены на услуги
-7. **FAQ** - Часто задаваемые вопросы
-8. **Final CTA** - Финальный призыв к действию
-
-## Установка и запуск
-
-### Установка зависимостей
+## Быстрый старт (разработка)
 
 ```bash
 npm install
+npm run dev          # фронтенд http://localhost:5173
+npm run dev:api      # PHP API http://localhost:8080 (отдельный терминал)
+npm run build        # сборка в dist/
 ```
 
-### Запуск в режиме разработки
+Контакты и ссылки для сайта: `.env` → `src/config/contacts.js` (см. `.env.example`).
 
-```bash
-npm run dev
+## Структура проекта
+
+```
+├── docs/                    # Вся документация (см. docs/README.md)
+│   ├── HANDOVER.md          # Передача салону, Telegram, VK
+│   ├── DEPLOY.md            # Деплой на Timeweb
+│   └── Pamyatka-dlya-salona.pdf
+├── public/                  # Статика + PHP API (копируется в dist при сборке)
+│   ├── api/                 # booking.php, admin.php, config.php, data/
+│   ├── admin/               # Админка записей
+│   └── images/              # Фото салона и мастеров
+├── scripts/                 # Вспомогательные скрипты для dev
+├── src/
+│   ├── components/          # Секции лендинга и модалка записи
+│   ├── config/              # Контакты с сайта
+│   └── data/                # Мастера, прайс, отзывы (для UI)
+├── index.html
+├── package.json
+└── vite.config.js
 ```
 
-Откройте [http://localhost:5173](http://localhost:5173) в браузере.
+## Документация
 
-### Сборка для продакшена
+Полный список: **[docs/README.md](docs/README.md)**
 
-```bash
-npm run build
-```
+| Важное | Файл |
+|--------|------|
+| Передача салону | [docs/HANDOVER.md](docs/HANDOVER.md) |
+| Деплой | [docs/DEPLOY.md](docs/DEPLOY.md) |
+| Памятка PDF | [docs/Pamyatka-dlya-salona.pdf](docs/Pamyatka-dlya-salona.pdf) |
 
-### Предпросмотр продакшен-сборки
+## Деплой (кратко)
 
-```bash
-npm run preview
-```
+1. `npm run build`
+2. Загрузить **содержимое** `dist/` в `public_html` на Timeweb
+3. **Не перезаписывать:** `api/config.php`, `api/data/bookings.db`
 
-## Настройка
+Подробно: [docs/DEPLOY.md](docs/DEPLOY.md)
 
-### Контактные данные
+## Технологии
 
-Измените контактные данные в компонентах:
-- `src/components/Header.jsx` - телефон в header
-- `src/components/Footer.jsx` - все контактные данные
-- `src/components/WhatsAppButton.jsx` - ссылка на WhatsApp
-
-### Цвета
-
-Настройте цветовую палитру в `tailwind.config.js`:
-- `primary` - основная палитра (теплые бежевые тона)
-- `accent` - акцентная палитра (насыщенные оттенки)
-
-### Шрифты
-
-Используются Google Fonts:
-- **Inter** - для основного текста
-- **Playfair Display** - для заголовков
-
-## Компоненты
-
-- `Header.jsx` - Sticky навигация
-- `Hero.jsx` - Главный экран
-- `Problem.jsx` - Секция с проблемами
-- `Solution.jsx` - Решения и преимущества
-- `HowItWorks.jsx` - Как это работает
-- `Testimonials.jsx` - Отзывы
-- `Pricing.jsx` - Цены
-- `FAQ.jsx` - Вопросы-ответы (аккордеон)
-- `FinalCTA.jsx` - Финальный призыв
-- `Footer.jsx` - Футер с контактами
-- `WhatsAppButton.jsx` - Плавающая кнопка WhatsApp
-
-## Кастомизация
-
-### Добавление изображений
-
-Замените placeholder'ы в компонентах реальными изображениями:
-1. Добавьте изображения в `public/images/`
-2. Обновите src в компонентах
-
-### Изменение текстов
-
-Все тексты находятся непосредственно в компонентах и легко редактируются.
-
-### Добавление новых секций
-
-1. Создайте компонент в `src/components/`
-2. Импортируйте его в `src/App.jsx`
-3. Добавьте в нужное место
-
-## Производительность
-
-- Оптимизированные изображения
-- Ленивая загрузка
-- Минимальный JavaScript
-- CSS-in-JS через Tailwind
-
-## Браузеры
-
-Поддержка современных браузеров:
-- Chrome (последние 2 версии)
-- Firefox (последние 2 версии)
-- Safari (последние 2 версии)
-- Edge (последние 2 версии)
-
-## Лицензия
-
-MIT
-
-## Контакты
-
-Для вопросов и предложений:
-- Email: info@yourmaster.ru
-- Телефон: +7 (999) 123-45-67
+React 18 · Vite · Tailwind CSS · PHP · SQLite

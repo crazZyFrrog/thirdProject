@@ -246,7 +246,7 @@ npm run build
 2. Импортируйте проект из GitHub
 3. Автоматический деплой при каждом commit
 
-Подробнее в `DEPLOY.md`.
+Подробнее в [DEPLOY.md](DEPLOY.md).
 
 ## Шаг 13: Аналитика (опционально)
 
@@ -280,43 +280,23 @@ npm install package-name
 
 ## Структура проекта
 
+Актуальная схема — в корневом [README.md](../README.md). Кратко:
+
 ```
-thirdProject/
-├── public/              # Статические файлы
-│   ├── images/         # Ваши изображения
-│   └── favicon.png
-├── src/
-│   ├── components/     # React компоненты
-│   │   ├── Header.jsx
-│   │   ├── Hero.jsx
-│   │   ├── Problem.jsx
-│   │   ├── Solution.jsx
-│   │   ├── HowItWorks.jsx
-│   │   ├── Testimonials.jsx
-│   │   ├── Pricing.jsx
-│   │   ├── FAQ.jsx
-│   │   ├── FinalCTA.jsx
-│   │   ├── Footer.jsx
-│   │   └── WhatsAppButton.jsx
-│   ├── App.jsx         # Главный компонент
-│   ├── main.jsx        # Точка входа
-│   └── index.css       # Глобальные стили
-├── index.html          # HTML шаблон
-├── package.json        # Зависимости
-├── tailwind.config.js  # Конфиг Tailwind
-├── vite.config.js      # Конфиг Vite
-└── README.md           # Документация
+├── docs/           # Вся документация (README.md — оглавление)
+├── public/         # Статика, PHP API, админка, images/
+├── scripts/        # Dev-скрипты
+├── src/            # React-лендинг
+└── README.md       # Точка входа в репозиторий
 ```
 
 ## Файлы документации
 
-- `README.md` - Общее описание проекта
-- `QUICK_START.md` - Этот файл
-- `CUSTOMIZATION.md` - Детальная кастомизация
-- `DEPLOY.md` - Инструкции по деплою
-- `INTEGRATIONS.md` - Интеграции (формы, карты, etc.)
-- `SEO.md` - SEO оптимизация
-- `BEST_PRACTICES.md` - Лучшие практики
+Все в папке `docs/` — оглавление: [docs/README.md](README.md)
+
+- [HANDOVER.md](HANDOVER.md) — передача салону
+- [QUICK_START.md](QUICK_START.md) — этот файл
+- [CUSTOMIZATION.md](CUSTOMIZATION.md), [DEPLOY.md](DEPLOY.md), [INTEGRATIONS.md](INTEGRATIONS.md), [SEO.md](SEO.md), [BEST_PRACTICES.md](BEST_PRACTICES.md)
 
 ## Частые вопросы
 
