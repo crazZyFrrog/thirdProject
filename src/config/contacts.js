@@ -4,8 +4,7 @@ const email = import.meta.env.VITE_EMAIL || ''
 const instagram = import.meta.env.VITE_INSTAGRAM || ''
 const vk = import.meta.env.VITE_VK || 'https://vk.com/salon_lt'
 const vkMessages =
-  import.meta.env.VITE_VK_MESSAGES ||
-  'https://vk.com/im/convo/-126807901?entrypoint=community_page&tab=all'
+  import.meta.env.VITE_VK_MESSAGES || 'https://vk.com/im?sel=-126807901'
 const address = import.meta.env.VITE_ADDRESS || 'г. Калуга, ул. Глаголева, д. 9'
 const yandexMapsUrl = import.meta.env.VITE_YANDEX_MAPS || 'https://yandex.ru/maps/org/masterskaya_krasoty_lt/1246399476/'
 
