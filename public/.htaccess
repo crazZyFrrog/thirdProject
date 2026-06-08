@@ -1,5 +1,10 @@
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # HTTPS на Timeweb обычно настраивается в панели хостинга.
+  # Редирект здесь не нужен — иначе возможен цикл ERR_TOO_MANY_REDIRECTS.
 
   # Не перенаправлять API на index.html
   RewriteCond %{REQUEST_URI} !^/api/

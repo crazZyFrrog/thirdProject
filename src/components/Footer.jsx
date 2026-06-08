@@ -1,6 +1,6 @@
 import React from 'react'
 import { Phone, MapPin, Instagram } from 'lucide-react'
-import { contacts, getVkMessagesUrl } from '../config/contacts'
+import { contacts, getVkMessagesUrl, trackVkClick } from '../config/contacts'
 
 const VkIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -78,6 +78,7 @@ const Footer = ({ onBookingClick }) => {
                 href={getVkMessagesUrl()}
                 target="_blank" 
                 rel="noopener noreferrer"
+                onClick={trackVkClick}
                 className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-accent-600 transition-colors"
                 aria-label="Написать в ВКонтакте"
               >

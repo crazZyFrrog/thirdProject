@@ -1,3 +1,5 @@
+import { reachMetrikaGoal } from '../lib/yandexMetrika'
+
 const phoneTel = (import.meta.env.VITE_PHONE || '+74842559572').replace(/\s/g, '')
 const phoneDisplay = import.meta.env.VITE_PHONE_DISPLAY || '+7 (4842) 55-95-72'
 const email = import.meta.env.VITE_EMAIL || ''
@@ -21,4 +23,8 @@ export const contacts = {
 
 export function getVkMessagesUrl() {
   return vkMessages
+}
+
+export function trackVkClick() {
+  reachMetrikaGoal('vk_click')
 }

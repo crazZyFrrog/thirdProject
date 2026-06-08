@@ -1,6 +1,6 @@
 import React from 'react'
 import { Check, Heart, Award, Users } from 'lucide-react'
-import { getVkMessagesUrl } from '../config/contacts'
+import { getVkMessagesUrl, trackVkClick } from '../config/contacts'
 
 const HeroStatsCard = ({ compact = false }) => (
   <div className={compact ? 'p-4 sm:p-5' : 'bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-xl'}>
@@ -61,6 +61,7 @@ const Hero = ({ onBookingClick }) => {
                 href={getVkMessagesUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={trackVkClick}
                 className="btn-secondary text-lg text-center"
               >
                 Написать в ВКонтакте

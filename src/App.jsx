@@ -14,6 +14,7 @@ import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
 import BookingModal from './components/BookingModal'
+import { reachMetrikaGoal } from './lib/yandexMetrika'
 
 function App() {
   const [showHeader, setShowHeader] = useState(false)
@@ -28,7 +29,10 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const openBookingModal = () => setShowBookingModal(true)
+  const openBookingModal = () => {
+    reachMetrikaGoal('booking_open')
+    setShowBookingModal(true)
+  }
   const closeBookingModal = () => setShowBookingModal(false)
 
   return (

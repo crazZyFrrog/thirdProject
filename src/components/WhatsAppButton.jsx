@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
-import { getVkMessagesUrl } from '../config/contacts'
+import { getVkMessagesUrl, trackVkClick } from '../config/contacts'
 
 const VkIcon = ({ className = 'w-8 h-8' }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -55,6 +55,7 @@ const VkMessageButton = () => {
         href={getVkMessagesUrl()}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={trackVkClick}
         className="group relative block"
         aria-label="Написать в ВКонтакте"
       >

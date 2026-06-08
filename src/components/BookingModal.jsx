@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { X, User, Mail, Phone, Calendar, MessageSquare, Check, Loader2, Clock, Scissors } from 'lucide-react'
+import { reachMetrikaGoal } from '../lib/yandexMetrika'
 
 const PHONE_PREFIX = '+7 '
 
@@ -209,6 +210,7 @@ const BookingModal = ({ isOpen, onClose }) => {
 
       setConfirmedBooking(result.booking ?? null)
       setIsSubmitted(true)
+      reachMetrikaGoal('booking_success')
 
       setTimeout(() => {
         onClose()

@@ -190,7 +190,7 @@ public_html/
 3. Загрузить `dist/` (кроме `api/config.php` и `api/data/bookings.db`)
 4. При смене услуг/мастеров — также `api/service-config.json`
 
-Подробнее: [CUSTOMIZATION.md](CUSTOMIZATION.md), [DEPLOY.md](DEPLOY.md)
+Подробнее: [CUSTOMIZATION.md](CUSTOMIZATION.md), [DEPLOY.md](DEPLOY.md), [SEO_YANDEX_SETUP.md](SEO_YANDEX_SETUP.md) (Метрика и Вебмастер)
 
 ---
 

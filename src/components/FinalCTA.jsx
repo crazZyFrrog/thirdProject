@@ -1,6 +1,6 @@
 import React from 'react'
 import { MessageCircle, Award, Heart, Sparkles } from 'lucide-react'
-import { getVkMessagesUrl } from '../config/contacts'
+import { getVkMessagesUrl, trackVkClick } from '../config/contacts'
 
 const FinalCTA = ({ onBookingClick }) => {
   return (
@@ -37,6 +37,7 @@ const FinalCTA = ({ onBookingClick }) => {
               href={getVkMessagesUrl()} 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={trackVkClick}
               className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-medium px-10 py-5 rounded-full border-2 border-white/30 transition-all duration-300 hover:scale-105 active:scale-100 inline-flex items-center justify-center space-x-3 text-lg"
             >
               <MessageCircle size={24} />

@@ -1,27 +1,9 @@
 import React, { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { faqs } from '../data/faq'
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null)
-
-  const faqs = [
-    {
-      question: 'Какие услуги вы оказываете?',
-      answer: 'Стрижки и окрашивание, маникюр и smart-педикюр, коррекция и окрашивание бровей и ресниц, причёски и укладки.'
-    },
-    {
-      question: 'А если я не знаю, какая стрижка или услуга мне подойдёт?',
-      answer: 'Перед работой обсудим ваши пожелания и подберём вариант с учётом особенностей. Можно написать в ВКонтакте или записаться через сайт.'
-    },
-    {
-      question: 'Сколько времени занимает процедура?',
-      answer: 'Зависит от услуги, но время всегда закладывается с запасом — без спешки и потока.'
-    },
-    {
-      question: 'Как записаться?',
-      answer: 'Через форму на сайте, по телефону +7 (4842) 55-95-72 или в сообщениях сообщества ВКонтакте.'
-    }
-  ]
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index)
